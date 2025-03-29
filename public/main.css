@@ -1,0 +1,285 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:root {
+    --index: calc(1vw + 1vh);
+    --transition: transform 0.75s cubic-bezier(0.75, 0.5,0,1);
+}
+@font-face {
+    font-family: raleway_f;
+    src: url(fonts/raleway-regular.woff2);
+}
+@font-face {
+    font-family: raleway_f;
+    src: url(fonts/raleway-black.woff2);
+    font-weight: 900;
+}
+body {
+    background-color: #010101;
+    color: #fff;
+    font-family: raleway_f, sans-serif;
+    line-height: 1.55;
+}
+.main-header {
+    position: relative;
+}
+.layers {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+}
+.layer {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background-size: cover;
+    background-position: center;
+    will-change: transform;
+    z-index: 2;
+    transition: var(--transition);
+}
+.layers__base {
+    transform: translate3d(0, calc(var(--scrollTop) / 1.6), 0);
+    z-index: 0;
+}
+.layers__middle {
+    transform: translate3d(0, calc(var(--scrollTop) / 2.5), 0);
+}
+.layers__front {
+    transform: translate3d(0, calc(var(--scrollTop) / 5.7), 0);
+}
+.layer__header {
+    position: absolute;
+}
+.layer__header {
+    bottom: 20%;
+    z-index: 1;
+    transform: translate3d(0, calc(var(--scrollTop) / 2), 0);
+    transition: var(--transition);
+    will-change: transform;
+    text-transform: uppercase;
+    font-weight: 900;
+    color: #fffb00;
+    text-shadow: 0 0 15px #eca12f;
+}
+.layers__title {
+    font-size: calc(var(--index) * 6);
+    letter-spacing: calc(var(--index) / 2.25);
+}
+.layers__caption {
+    font-size: calc(var(--index) * 2);
+    letter-spacing: calc(var(--index) / 3.5);
+}
+.main-article {
+    min-height: 100vh;
+    background-size: cover;
+    background-color: center;
+    color: #fffb00;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    text-align: center;
+}
+.main-article__content {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.main-article__header {
+    text-transform: uppercase;
+    font-size: calc(var(--index) * 1.8);
+    letter-spacing: calc(var(--index) / 7.5);
+    transform: translate3d(0, calc(var(--scrollTop) / -20.5), 0);
+    transition: var(--transition);
+    will-change: transform;
+}
+.main-article__paragraph {
+    max-width: calc(var(--index) * 30);
+    font-size: calc(var(--index) * 0.95); /* Увеличен размер текста */
+    margin-top: calc(var(--index) / -3);
+    line-height: 1; /* Добавлено больше межстрочного интервала для читаемости */
+    transform: translate3d(0, calc(var(--scrollTop) / -20.5), 0);
+    transition: var(--transition);
+    will-change: transform;
+    text-align: justify; /* Добавлено выравнивание по ширине */
+    color: #fffb00; /* Текст сделан ярче для контраста */
+    text-shadow: 0 0 10px #eca12f; /* Добавлена легкая подсветка для акцента */
+    padding: calc(var(--index) * 0.5); /* Добавлены отступы для комфортного чтения */
+    background-color: rgba(255, 255, 255, 0.582); /* Добавлен полупрозрачный фон */
+    border-radius: calc(var(--index) / 3); /* Закруглены края */
+}
+.catalog-button {
+    margin-top: calc(var(--index) * -1);
+    margin-bottom: calc(var(--index) * 2);
+    padding: calc(var(--index) / 2) calc(var(--index) * 2);
+    background-color: #fffb00;
+    color: #010101;
+    border: none;
+    border-radius: calc(var(--index) / 4);
+    cursor: pointer;
+    text-decoration: none;
+    font-size: calc(var(--index) * 1.5);
+    transition: background-color 0.3s;
+}
+.catalog-button:hover {
+    background-color: #eca12f;
+}
+.call {
+    margin-top: calc(var(--index) * -2);
+    font-size: calc(var(--index) * 1);
+}
+.social-icons {
+    display: flex;
+    justify-content: center;
+    margin-top: calc(var(--index) * 0.5);
+}
+.social-icon {
+    margin-right: calc(var(--index) / 2);
+}
+.social-icon:last-child {
+    margin-right: 0;
+}
+.social-icon img {
+    width: calc(var(--index) * 2);
+    height: auto;
+}
+.social-icon:hover img {
+    transform: scale(1.1);
+}
+.copy {
+    position: absolute;
+    bottom: calc(var(--index) * 1);
+    opacity: 0.45;
+    font-size: calc(var(--index) * 0.65);
+}
+.vertical-gallery {
+    position: absolute;
+    top: 10%;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--index) * 0.5);
+    transform: translate3d(0, calc(var(--scrollTop) / -10.5), 0);
+}
+.left-gallery {
+    margin-left: calc(var(--index) * 50);
+    gap: calc(var(--index) * 2);
+}
+.right-gallery {
+    margin-right: calc(var(--index) * 50);
+    
+}
+.vertical-gallery img {
+    width: calc(var(--index) * 10);
+    height: auto;
+    border-radius: calc(var(--index) / 5);
+    transition: transform 0.3s;
+}
+.vertical-gallery img:hover {
+    transform: scale(1.05);
+}
+.content {
+    will-change: transform;
+}
+.scroll-hint {
+    position: absolute;
+    bottom: calc(var(--index) * 1.5);
+    left: 90%;
+    transform: translateX(-50%);
+    z-index: 3;
+}
+
+.arrow {
+    width: calc(var(--index) * 1.5);
+    height: calc(var(--index) * 1.5);
+    border-left: 2px solid #ebec7f;
+    border-bottom: 2px solid #ebec7f;
+    transform: rotate(0deg);
+    animation: bounce 1.5s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: rotate(-45deg) translateY(0);
+    }
+    50% {
+        transform: rotate(-45deg) translateY(calc(var(--index) * 0.5));
+    }
+}
+
+.gender-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    flex-direction: row;
+    background-image: url('img/LV4.2.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.half {
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* Располагаем элементы вертикально */
+    align-items: center;    /* Центрируем элементы по горизонтали */
+    justify-content: center; /* Центрируем элементы по вертикали */
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+    position: relative;
+}
+
+.gender-image {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+    transition: transform 0.3s, opacity 0.3s, border 0.3s;
+    border-radius: 10px;
+    margin-top: calc(var(--index) * 3);
+}
+
+.gender-text {
+    margin-top: calc(var(--index) * 0.5); /* Расстояние между картинкой и текстом */
+    font-size: calc(var(--index) * 1.2);
+    color: #fffb00;
+    text-align: center;
+    text-shadow: 0 0 10px #eca12f;
+    font-weight: bold;
+}
+
+
+/* Надпись с заголовком */
+.gender-title {
+    text-align: center;
+    font-size: calc(var(--index) * 2);
+    margin: calc(var(--index) * -3) 0;
+    color: #fffb00;
+    text-shadow: 0 0 15px #eca12f;
+    font-weight: bold;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Рамки и подсветка при наведении */
+.half.left:hover .gender-image {
+    transform: scale(1.05);
+    opacity: 0.9;
+    border: 5px solid #1e90ff; /* Розовая рамка для женской */
+}
+
+.half.right:hover .gender-image {
+    transform: scale(1.05);
+    opacity: 0.9;
+    border: 5px solid #ff69b4; /* Синяя рамка для мужской */
+}
+
+

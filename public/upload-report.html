@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Загрузить отчет</title>
+    <link rel="stylesheet" href="up.css">
+</head>
+<body>
+    <header class="img" style="background-image:url(img/LV4.2.jpg);">
+        <div class="logo">
+            <h1>Загрузить отчет</h1>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="text-container">
+            <h2>Загрузите отчет о продажах</h2>
+            <p>Вы можете загрузить отчет в формате Word или Excel</p>
+        </div>
+
+        <div class="button-container">
+            <!-- Форма для загрузки отчета -->
+            <form action="/upload-report" method="POST" enctype="multipart/form-data">
+                <input type="file" name="report" accept=".docx, .xlsx" required>
+                <button type="submit">Загрузить отчет</button>
+            </form>
+        </div>
+
+        <div class="message-container">
+            <!-- Показ сообщения о статусе загрузки -->
+            <p id="message"></p>
+        </div>
+
+        <div class="reports-container">
+            <h3>Загруженные отчеты</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Название отчета</th>
+                        <th>Дата загрузки</th>
+                        <th>Статус</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody id="report-list">
+                    <!-- Отчеты будут загружаться через JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/api/reports')
+                .then(response => response.json())
+                .then(reports => {
+                    const reportList = document.getElementById('report-list');
+                    reports.forEach(report => {
+                        const row = document.createElement('tr');
+                        row.dataset.id = report.id;
+                        row.innerHTML = `
+                            <td>${report.id}</td>
+                            <td>${report.название}</td>
+                            <td>${new Date(report.дата_создания).toLocaleDateString()}</td>
+                            <td>${report.статус}</td>
+                            <td>
+                                <button onclick="deleteReport(${report.id})">Удалить</button>
+                            </td>
+                        `;
+                        reportList.appendChild(row);
+                    });
+                });
+        });
+
+function deleteReport(reportId) {
+    if (confirm('Вы уверены, что хотите удалить этот отчет?')) {
+        fetch(`/api/reports/${reportId}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                alert('Отчет успешно удален.');
+                location.reload(); // Перезагружаем страницу, чтобы обновить список
+            } else {
+                alert(result.message); // Показываем сообщение, например "Нельзя удалить принятый отчет"
+            }
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+            alert('Ошибка при удалении отчета.');
+        });
+    }
+}
+
+    </script>
+</body>
+</html>
+
+
+
+
+

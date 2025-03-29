@@ -1,0 +1,138 @@
+/* Общие стили для страницы */
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Переменные для гибкости */
+:root {
+    --index: calc(1vw + 1vh);
+}
+
+/* Стили для body */
+body {
+    background-color: #010101;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+/* Стили для шапки страницы */
+.img {
+    background-size: cover;
+    background-position: center;
+    color: #fffb00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--index);
+}
+
+/* Заголовок на главной странице */
+header .logo h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+/* Основной контейнер */
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: var(--index);
+}
+
+/* Контейнер для текста */
+.text-container {
+    font-size: calc(var(--index) * 1.2);
+    color: #fffb00;
+    text-shadow: 0 0 10px #eca12f;
+    background-color: rgba(255, 255, 255, 0.582);
+    border-radius: calc(var(--index) / 3);
+    padding: calc(var(--index) * 0.5);
+    max-width: calc(var(--index) * 30);
+}
+
+/* Контейнер для формы загрузки отчета */
+.form-container {
+    width: 90%;
+    max-width: 800px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: var(--index);
+    border-radius: var(--index);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Центрирование содержимого по горизонтали */
+    justify-content: center; /* Центрирование по вертикали */
+    height: 300px; /* Высота контейнера */
+}
+
+/* Стили для таблицы */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+table th, table td {
+    border: 1px solid #eca12f;
+    padding: 10px;
+    text-align: center;
+}
+
+table th {
+    background-color: #333;
+    color: #fffb00;
+}
+
+/* Стили для формы */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center; /* Центрирование формы */
+}
+
+/* Стили для меток формы */
+label {
+    font-size: 1.2rem;
+    color: #fffb00;
+}
+
+/* Стили для полей ввода */
+input[type="file"] {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background-color: #222;
+    color: #fff;
+}
+
+/* Стили для кнопки */
+button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #333;
+    color: #fffb00;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 250px;
+    margin-top: 1rem; /* Отступ сверху */
+}
+
+/* Эффект при наведении на кнопку */
+button:hover {
+    background-color: #eca12f;
+}
+
+button:active {
+    background-color: #e28b2e;
+}

@@ -1,0 +1,204 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+:root {
+    --index: calc(1vw + 1vh);
+}
+
+@font-face {
+    font-family: raleway_f;
+    src: url(fonts/raleway-regular.woff2);
+}
+
+@font-face {
+    font-family: raleway_f;
+    src: url(fonts/raleway-black.woff2);
+    font-weight: 900;
+}
+
+body {
+    background-color: #010101;
+    color: #fff;
+    font-family: raleway_f, sans-serif;
+    line-height: 1.55;
+}
+
+.img {
+    background-size: cover;
+    background-position: center;
+    color: #fffb00;
+    text-shadow: 0 0 15px #eca12f;
+    display: flex;
+    align-items: center;
+    position: relative;
+    text-align: center;
+    padding: var(--index);
+}
+
+.footer {
+    background-size: cover;
+    background-position: center;
+    color: #fffb00;
+    text-shadow: 0 0 15px #eca12f;
+    display: flex;
+    align-items: center;
+    position: relative;
+    text-align: center;
+    justify-content: center;
+    padding: calc(var(--index) * 2);
+    margin-top: auto;
+}
+
+.copy {
+    position: absolute;
+    bottom: calc(var(--index) * 1);
+    opacity: 0.45;
+    font-size: calc(var(--index) * 0.65);
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: var(--index);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .logo h1 {
+    margin: 0;
+}
+
+header nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+header nav ul li {
+    margin-right: calc(var(--index) * 2);
+    margin-left: calc(var(--index) * 1);
+    position: relative;
+}
+
+header nav ul li a {
+    color: rgb(255, 230, 0);
+    text-decoration: none;
+    padding: 8px 16px;
+    border: 2px solid transparent;
+    transition: all 0.3s;
+    background-color: transparent;
+}
+
+header nav ul li a:hover {
+    color: #eca12f;
+    border: 2px solid #fffb00;
+    background-color: #333;
+}
+
+.video-bg {
+    height: calc(100vh - var(--index) * 7.8);
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.video-bg video {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    min-width: calc(var(--index) * 6); 
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border: 2px solid #fffb00;
+    background-color: #333;
+}
+
+.dropdown-content a {
+    color: rgb(255, 230, 0);
+    padding: calc(var(--index) * 0.75) calc(var(--index) * 1.5);
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid #fffb00;
+    background-color: transparent;
+}
+
+.dropdown-content a:hover {
+    background-color: #555;
+}
+
+.dropdown-content a:last-child {
+    border-bottom: none;
+}
+
+.show {
+    display: block;
+}
+.dropdown-content img{
+    width: calc(var(--index) * 2);
+    height: auto;
+}
+
+.main {
+    display: flex;
+    flex-direction: column; /* Размещаем элементы по вертикали */
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    text-align: center; /* Центрируем текст */
+    gap: 2rem; /* Расстояние между текстом и кнопками */
+}
+
+.text-container {
+    font-size: calc(var(--index) * 1); /* Можно подкорректировать размер текста */
+    color: #fffb00;
+    text-shadow: 0 0 10px #eca12f;
+    background-color: rgba(255, 255, 255, 0.582);
+    border-radius: calc(var(--index) / 3);
+    padding: calc(var(--index) * 0.5);
+    max-width: calc(var(--index) * 30);
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    background-color: #333;
+    color: #fffb00;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #eca12f;
+}

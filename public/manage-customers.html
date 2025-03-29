@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление покупателями</title>
+    <link rel="stylesheet" href="cust.css">
+</head>
+<body>
+    <header class="img" style="background-image:url(img/LV4.2.jpg);">
+        <div class="logo">
+            <h1>Управление покупателями</h1>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="text-container">
+            <h2>Список покупателей</h2>
+            <p>Здесь вы можете удалять пользователей из системы</p>
+        </div>
+
+        <div class="form-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Имя</th>
+                        <th>Фамилия</th>
+                        <th>Email</th>
+                        <th>Роль</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody id="customer-list">
+                    <!-- Данные загружаются через JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <div id="notification" class="hidden"></div>
+
+    <script src="cust.js"></script>
+</body>
+</html>

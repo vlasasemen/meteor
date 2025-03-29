@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оформление заказа</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Оформление заказа</h1>
+        </div>
+    </header>
+
+    <section class="checkout container">
+        <h2>Данные для доставки</h2>
+        <form id="checkout-form">
+    <label for="address">Адрес доставки:</label>
+    <input type="text" id="address" name="address" required>
+
+    <label for="delivery-method">Способ доставки:</label>
+    <select id="delivery-method" name="delivery-method" required>
+        <option value="courier">Курьерская доставка</option>
+        <option value="pickup">Самовывоз</option>
+    </select>
+
+    <h2>Данные для оплаты</h2>
+    <label for="card-number">Номер карты:</label>
+    <input type="text" id="card-number" name="card-number" required pattern="\d{16}" placeholder="16 цифр на карте">
+
+    <label for="expiry-date">Срок действия:</label>
+    <input type="text" id="expiry-date" name="expiry-date" required placeholder="MM/YY">
+
+    <label for="cvv">CVV:</label>
+    <input type="text" id="cvv" name="cvv" required pattern="\d{3}" placeholder="3 цифры на обороте карты">
+
+    <button type="button" id="confirm-order">Подтвердить заказ</button>
+</form>
+
+    </section>
+    <script src="shop.js"></script>
+    <script src="checkout.js"></script>
+</body>
+</html>
+
+
+

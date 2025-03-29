@@ -1,0 +1,179 @@
+body, html { 
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+:root {
+    --index: calc(1vw + 1vh);
+}
+
+body {
+    background-color: #010101;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+.img {
+    background-size: cover;
+    background-position: center;
+    color: #fffb00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--index);
+}
+
+header .logo h1 {
+    margin: 0;
+    font-size: 2rem;
+    text-shadow: 0 0 10px #eca12f;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: var(--index);
+}
+
+.text-container {
+    font-size: calc(var(--index) * 1.2);
+    color: #fffb00;
+    text-shadow: 0 0 10px #eca12f;
+    background-color: rgba(255, 255, 255, 0.582);
+    border-radius: calc(var(--index) / 3);
+    padding: calc(var(--index) * 0.5);
+    max-width: calc(var(--index) * 30);
+    text-align: center;
+}
+
+.form-container {
+    width: 90%;
+    max-width: calc(var(--index) * 40);
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: var(--index);
+    border-radius: var(--index);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem; /* Отступ блока фильтрации от таблицы */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+table th, table td {
+    border: 1px solid #eca12f;
+    padding: 10px;
+    text-align: center;
+}
+
+table th {
+    background-color: #333;
+    color: #fffb00;
+}
+
+/* Стили для кнопок */
+button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #333;
+    color: #fffb00;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 250px;
+    margin-top: 1rem; /* Отступ сверху */
+}
+
+/* Эффект при наведении на кнопку */
+button:hover {
+    background-color: #eca12f;
+}
+
+button:active {
+    background-color: #e28b2e;
+}
+
+/* Выравнивание кнопок по центру */
+button.center {
+    margin: 0 auto;
+}
+
+/* Стилизация форм */
+form {
+    width: 100%;
+    max-width: 500px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #fffb00;
+}
+
+form input,
+form select,
+form textarea {
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #eca12f;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+form select {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+form button {
+    width: auto;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    margin-top: 10px;
+    align-self: flex-start;
+}
+
+form button[type="submit"] {
+    background-color: #333;
+}
+
+form button[type="button"] {
+    background-color: #e28b2e;
+    margin-left: 15px;
+}
+
+/* Отступы и выравнивание для кнопок отмены и подтверждения */
+.buttons-container {
+    display: flex;
+    justify-content: flex-start;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+
+
+

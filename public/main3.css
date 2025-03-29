@@ -1,0 +1,49 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+@font-face {
+    font-family: raleway_f;
+    src: url(fonts/raleway-regular.woff2);
+}
+@font-face {
+    font-family: raleway_f;
+    src: url(fonts/raleway-black.woff2);
+    font-weight: 900;
+}
+:root {
+    --index: calc(1vw + 1vh);
+    --chart-width: 75%; 
+    --chart-height: calc(var(--index) * 30);
+}
+body {
+    background-color: #010101;
+    color: #fff;
+    font-family: raleway_f, sans-serif;
+    line-height: 1.55;
+    min-height: 100vh;
+    background-size: cover;
+    background-color: center;
+    color: #fffb00;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    text-align: center;
+}
+.chart-container {
+    width: var(--chart-width);
+    max-width: 900px; 
+    height: var(--chart-height);
+    max-height: 600px;
+    margin: auto;
+    padding: calc(var(--index) * 1);
+    background-color: #5a5959;
+    border: 2px solid #fffb00;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+

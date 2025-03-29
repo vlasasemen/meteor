@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление товарами</title>
+    <link rel="stylesheet" href="manager-products.css">
+</head>
+<body>
+    <header class="img" style="background-image:url(img/LV4.2.jpg);">
+        <div class="logo">
+            <h1>Управление товарами</h1>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="text-container">
+            <h2>Список товаров</h2>
+            <p>Редактируйте, удаляйте или добавляйте новые товары в магазин.</p>
+        </div>
+
+        <div class="form-container">
+            <!-- Форма выбора категории и пола -->
+            <form id="filter-form">
+                <label for="category">Выберите категорию:</label>
+                <select id="category" name="category">
+                    <!-- Опции категорий будут загружены динамически -->
+                </select>
+
+                <label for="gender">Выберите пол:</label>
+                <select id="gender" name="gender">
+                    <option value="Мужской">Мужской</option>
+                    <option value="Женский">Женский</option>
+                    <option value="Унисекс">Унисекс</option>
+                </select>
+
+                <button type="submit" class="center">Применить фильтры</button>
+            </form>
+        </div>
+
+        <!-- Таблица товаров -->
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Название</th>
+                    <th>Цена</th>
+                    <th>Размер</th>
+                    <th>Количество</th>
+                    <th>Пол</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody id="product-list">
+                <!-- Данные товаров будут загружаться динамически -->
+            </tbody>
+        </table>
+
+        <!-- Форма редактирования товара -->
+        <!-- Форма редактирования товара -->
+<div class="form-container" id="edit-product-container" style="display: none;">
+    <h3>Редактировать товар</h3>
+    <form id="edit-product-form">
+        <input type="hidden" id="edit-product-id" name="id">
+        <label for="edit-product-name">Название:</label>
+        <input type="text" id="edit-product-name" name="name" required>
+
+        <label for="edit-product-description">Описание:</label>
+        <textarea id="edit-product-description" name="description" required></textarea>
+
+        <label for="edit-product-price">Цена:</label>
+        <input type="number" id="edit-product-price" name="price" required>
+
+        <label for="edit-product-quantity">Количество:</label>
+        <input type="number" id="edit-product-quantity" name="quantity" required>
+
+        <label for="edit-product-size">Размер:</label>
+        <input type="text" id="edit-product-size" name="size" required>
+
+        <label for="edit-product-image">Изображение:</label>
+        <input type="text" id="edit-product-image" name="image" required>
+
+        <label for="edit-product-category">Категория:</label>
+        <select id="edit-product-category" name="category">
+            <!-- Категории будут загружаться динамически -->
+        </select>
+
+        <label for="edit-product-gender">Пол:</label>
+        <select id="edit-product-gender" name="gender">
+            <option value="Мужской">Мужской</option>
+            <option value="Женский">Женский</option>
+            <option value="Унисекс">Унисекс</option>
+        </select>
+
+        <button type="submit" class="center">Сохранить изменения</button>
+        <button type="button" class="center" id="cancel-edit">Отменить</button>
+    </form>
+</div>
+
+
+        <!-- Форма добавления товара -->
+        <div class="form-container">
+            <form id="add-product-form">
+                <h3>Добавить новый товар</h3>
+                <label for="product-name">Название:</label>
+                <input type="text" id="product-name" name="name" required>
+
+                <label for="product-description">Описание:</label>
+                <textarea id="product-description" name="description" required></textarea>
+
+                <label for="product-price">Цена:</label>
+                <input type="number" id="product-price" name="price" required>
+
+                <label for="product-quantity">Количество:</label>
+                <input type="number" id="product-quantity" name="quantity" required>
+
+                <label for="product-size">Размер:</label>
+                <input type="text" id="product-size" name="size" required>
+
+                <label for="product-image">Изображение:</label>
+                <input type="text" id="product-image" name="image" required>
+
+                <label for="product-category">Категория:</label>
+                <select id="product-category" name="category">
+                    <!-- Категории будут загружены динамически -->
+                </select>
+
+                <label for="product-gender">Пол:</label>
+                <select id="product-gender" name="gender">
+                    <option value="Мужской">Мужской</option>
+                    <option value="Женский">Женский</option>
+                    <option value="Унисекс">Унисекс</option>
+                </select>
+
+                <button type="submit" class="center">Добавить</button>
+            </form>
+        </div>
+    </main>
+
+    <script src="admin.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

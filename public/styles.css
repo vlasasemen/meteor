@@ -1,0 +1,111 @@
+/* Общие стили для страницы */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+header {
+    background-color: #010101;
+    color: #fff;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+.checkout {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+}
+
+.checkout h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #010101;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+label {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+input, select {
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    width: 100%;
+}
+
+input:focus, select:focus {
+    border-color: #010101;
+    outline: none;
+}
+
+button {
+    padding: 1rem 0;
+    font-size: 1.2rem;
+    background-color: #010101;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #eca12f;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Стили для мобильных устройств */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 1rem 0;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .checkout h2 {
+        font-size: 1.5rem;
+    }
+
+    form {
+        gap: 1rem;
+    }
+
+    button {
+        font-size: 1.1rem;
+    }
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кепки</title>
+    <link rel="stylesheet" href="shop.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <header>
+        <div class="nav container">
+            <a href="index1.html" class="logo">LVShop</a>
+            <div class="notification" id="notification">
+                Товар добавлен в корзину!
+            </div>
+            <div class="cart-icon" id="cart-icon">
+                <img src="img/bag.png" alt="VK">
+                <span class="cart-count" id="cart-count">0</span>
+            </div>
+            <div class="cart">
+                <h2 class="cart-title">Корзина</h2>
+                <div class="cart-content">
+                </div>
+                <div class="total">
+                    <div class="total-title">Итог</div>
+                    <div class="total-price">₽0</div>
+                </div>
+                <button type="button" class="btn-buy" onclick="placeOrder()">Оформить заказ</button>
+                <i class='bx bxs-x-circle' id="close-cart"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="shop container">
+        <h2 class="section-title">Кепки</h2>
+        <div class="shop-content" id="shop-content">
+            <!-- Товары будут загружаться сюда -->
+        </div>
+    </section>
+
+    <!-- Модальное окно -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img id="modal-product-img" class="modal-img" src="" alt="Product Image">
+            <h2 id="modal-product-title"></h2>
+            <p id="modal-product-description"></p>
+            <span id="modal-product-price"></span>
+            <div>
+                <label for="size">Выберите размер:</label>
+                <select id="size">
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                </select>
+            </div>
+            <button id="add-to-cart-modal">Добавить в корзину</button>
+        </div>
+    </div>
+
+    <script src="shop.js"></script>
+</body>
+</html>
