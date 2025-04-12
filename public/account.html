@@ -53,23 +53,31 @@
                 <div class="account-content">
                     <!-- Вкладка профиля -->
                     <div class="tab-content active" id="profile-tab">
-                        <h2>Мой профиль</h2>
-                        <form id="profile-form">
-                            <div class="form-group">
-                                <label for="name">Имя</label>
-                                <input type="text" id="name" name="name" value="ОЛЕГ" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="surname">Фамилия</label>
-                                <input type="text" id="surname" name="surname" value="Антонов" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" name="email" value="ad222@mail.ru" required>
-                            </div>
-                            <button type="submit" class="btn-save">Сохранить изменения</button>
-                        </form>
-                    </div>
+    <h2>Мой профиль</h2>
+    <form id="profile-form">
+        <div class="form-group">
+            <label for="name">Имя</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="surname">Фамилия</label>
+            <input type="text" id="surname" name="surname" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Телефон</label>
+            <input type="tel" id="phone" name="phone">
+        </div>
+        <div class="form-group">
+            <label for="registration-date">Дата регистрации</label>
+            <input type="text" id="registration-date" readonly>
+        </div>
+        <button type="submit" class="btn-save">Сохранить изменения</button>
+    </form>
+</div>
                     
                     <!-- Вкладка заказов -->
                     <div class="tab-content" id="orders-tab">

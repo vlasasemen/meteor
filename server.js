@@ -539,102 +539,112 @@ app.get('/account', async (req, res) => {
 
 // Получение информации о пользователе
 app.get('/api/user-info', async (req, res) => {
+	if (!req.session.user) {
+		return res.status(401).json({ success: false, message: 'Не авторизован' })
+	}
+
+	try {
+		const result = await db.query(
+			'SELECT id, имя, фамилия, email, телефон, дата_регистрации FROM пользователи WHERE id = $1',
+			[req.session.user.id]
+		)
+		if (result.rows.length === 0) {
+			return res
+				.status(404)
+				.json({ success: false, message: 'Пользователь не найден' })
+		}
+		res.json(result.rows[0])
+	} catch (err) {
+		console.error(err)
+		res.status(500).json({ success: false, message: 'Ошибка сервера' })
+	}
+})
+
+// Получение заказов пользователя
+app.get('/api/user-orders', async (req, res) => {
     if (!req.session.user) {
         return res.status(401).json({ success: false, message: 'Не авторизован' });
     }
-    
+
     try {
-        const result = await db.query(
-            'SELECT id, имя, фамилия, email FROM пользователи WHERE id = $1',
+        const ordersResult = await db.query(
+            `SELECT з.id, з.дата_заказа as "дата_создания", з.сумма, з.адрес_доставки, 
+             з.способ_доставки, з.статус 
+             FROM заказы з 
+             WHERE з.id_пользователя = $1 
+             ORDER BY з.дата_заказа DESC`,
             [req.session.user.id]
         );
-        if (result.rows.length === 0) {
-            return res.status(404).json({ success: false, message: 'Пользователь не найден' });
-        }
-        res.json(result.rows[0]);
+
+        const ordersWithDetails = await Promise.all(
+            ordersResult.rows.map(async order => {
+                const detailsResult = await db.query(
+                    `SELECT д.количество, д.цена, т.название, т.изображение, т.размер 
+                     FROM детали_заказа д 
+                     JOIN товары т ON д.id_товара = т.id 
+                     WHERE д.id_заказа = $1`,
+                    [order.id]
+                );
+                return {
+                    ...order,
+                    items: detailsResult.rows,
+                };
+            })
+        );
+
+        res.json(ordersWithDetails);
     } catch (err) {
         console.error(err);
         res.status(500).json({ success: false, message: 'Ошибка сервера' });
     }
 });
 
-// Получение заказов пользователя
-app.get('/api/user-orders', async (req, res) => {
+// Обновление информации пользователя
+app.post('/api/update-user', async (req, res) => {
 	if (!req.session.user) {
 		return res.status(401).json({ success: false, message: 'Не авторизован' })
 	}
 
+	const { name, surname, email, phone } = req.body
+
 	try {
-		const ordersResult = await db.query(
-			`SELECT з.id, з.дата_заказа as "дата_создания", з.сумма, з.адрес_доставки, 
-             з.способ_доставки, з.статус 
-             FROM заказы з 
-             WHERE з.id_пользователя = $1 
-             ORDER BY з.дата_заказа DESC`,
-			[req.session.user.id]
+		const emailCheck = await db.query(
+			'SELECT id FROM пользователи WHERE email = $1 AND id != $2',
+			[email, req.session.user.id]
 		)
 
-		const ordersWithDetails = await Promise.all(
-			ordersResult.rows.map(async order => {
-				const detailsResult = await db.query(
-					`SELECT д.количество, д.цена, т.название, т.изображение 
-                     FROM детали_заказа д 
-                     JOIN товары т ON д.id_товара = т.id 
-                     WHERE д.id_заказа = $1`,
-					[order.id]
-				)
-				return {
-					...order,
-					items: detailsResult.rows,
-				}
+		if (emailCheck.rows.length > 0) {
+			return res.status(400).json({
+				success: false,
+				message: 'Этот email уже используется другим пользователем',
 			})
+		}
+
+		await db.query(
+			'UPDATE пользователи SET имя = $1, фамилия = $2, email = $3, телефон = $4 WHERE id = $5',
+			[name, surname, email, phone, req.session.user.id]
 		)
 
-		res.json(ordersWithDetails)
+		req.session.user.имя = name
+		req.session.user.фамилия = surname
+		req.session.user.email = email
+		req.session.user.телефон = phone
+
+		res.json({
+			success: true,
+			message: 'Данные успешно обновлены',
+			имя: name,
+			фамилия: surname,
+			email,
+			телефон: phone,
+		})
 	} catch (err) {
 		console.error(err)
-		res.status(500).json({ success: false, message: 'Ошибка сервера' })
+		res
+			.status(500)
+			.json({ success: false, message: 'Ошибка обновления данных' })
 	}
-});
-
-// Обновление информации пользователя
-app.post('/api/update-user', async (req, res) => {
-    if (!req.session.user) {
-        return res.status(401).json({ success: false, message: 'Не авторизован' });
-    }
-    
-    const { name, surname, email } = req.body;
-    
-    try {
-        // Проверяем, не занят ли email другим пользователем
-        const emailCheck = await db.query(
-            'SELECT id FROM пользователи WHERE email = $1 AND id != $2',
-            [email, req.session.user.id]
-        );
-        
-        if (emailCheck.rows.length > 0) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'Этот email уже используется другим пользователем' 
-            });
-        }
-        
-        await db.query(
-            'UPDATE пользователи SET имя = $1, фамилия = $2, email = $3 WHERE id = $4',
-            [name, surname, email, req.session.user.id]
-        );
-        
-        // Обновляем данные в сессии
-        req.session.user.имя = name;
-        req.session.user.фамилия = surname;
-        req.session.user.email = email;
-        
-        res.json({ success: true, message: 'Данные успешно обновлены' });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, message: 'Ошибка обновления данных' });
-    }
-});
+})
 
 // Смена пароля
 app.post('/api/change-password', async (req, res) => {

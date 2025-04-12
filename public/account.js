@@ -35,10 +35,18 @@ document.addEventListener('DOMContentLoaded', function () {
 	profileForm.addEventListener('submit', function (e) {
 		e.preventDefault()
 
+		const phone = document.getElementById('phone').value
+		const phoneRegex = /^\+?\d{10,15}$/
+		if (phone && !phoneRegex.test(phone)) {
+			showNotification('Некорректный формат телефона', 'error')
+			return
+		}
+
 		const formData = {
 			name: document.getElementById('name').value,
 			surname: document.getElementById('surname').value,
 			email: document.getElementById('email').value,
+			phone: phone,
 		}
 
 		updateProfile(formData)
@@ -96,6 +104,11 @@ document.addEventListener('DOMContentLoaded', function () {
 				document.getElementById('name').value = data.имя
 				document.getElementById('surname').value = data.фамилия
 				document.getElementById('email').value = data.email
+				document.getElementById('phone').value = data.телефон || ''
+				const regDate = data.дата_регистрации
+					? new Date(data.дата_регистрации).toLocaleDateString('ru-RU')
+					: 'Не указана'
+				document.getElementById('registration-date').value = regDate
 			})
 			.catch(error => {
 				console.error('Ошибка:', error)
@@ -182,7 +195,16 @@ document.addEventListener('DOMContentLoaded', function () {
 			})
 	}
 
-	// Функция отображения деталей заказа
+	function translateDeliveryMethod(method) {
+		const deliveryMethods = {
+			courier: 'Курьер',
+			pickup: 'Самовывоз',
+			post: 'Почта',
+			// Добавьте другие методы доставки, если они есть
+		}
+		return deliveryMethods[method.toLowerCase()] || method
+	}
+
 	function showOrderDetails(orderId, orders) {
 		const order = orders.find(o => o.id == orderId)
 		if (!order) return
@@ -202,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		document.getElementById('order-status').textContent = order.статус
 		document.getElementById('order-address').textContent = order.адрес_доставки
 		document.getElementById('order-delivery').textContent =
-			order.способ_доставки
+			translateDeliveryMethod(order.способ_доставки)
 		document.getElementById('order-total').textContent = formatPrice(
 			order.сумма
 		)
@@ -214,19 +236,20 @@ document.addEventListener('DOMContentLoaded', function () {
 			const itemElement = document.createElement('div')
 			itemElement.className = 'order-item'
 			itemElement.innerHTML = `
-                <img src="${item.изображение}" alt="${
+            <img src="${item.изображение}" alt="${
 				item.название
 			}" class="order-item-img">
-                <div class="order-item-details">
-                    <div class="order-item-title">${item.название}</div>
-                    <div class="order-item-price">${formatPrice(
-											item.цена
-										)}</div>
-                    <div class="order-item-quantity">Количество: ${
-											item.количество
-										}</div>
-                </div>
-            `
+            <div class="order-item-details">
+                <div class="order-item-title">${item.название}</div>
+                <div class="order-item-price">${formatPrice(item.цена)}</div>
+                <div class="order-item-quantity">Количество: ${
+									item.количество
+								}</div>
+                <div class="order-item-size">Размер: ${
+									item.размер || 'Не указан'
+								}</div>
+            </div>
+        `
 			itemsList.appendChild(itemElement)
 		})
 
@@ -252,7 +275,6 @@ document.addEventListener('DOMContentLoaded', function () {
 			})
 			.then(data => {
 				showNotification('Профиль успешно обновлен', 'success')
-				// Обновляем имя в сайдбаре
 				document.getElementById(
 					'user-name'
 				).textContent = `${data.имя} ${data.фамилия}`
