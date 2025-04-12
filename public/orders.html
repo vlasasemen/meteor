@@ -1,0 +1,113 @@
+<!-- orders.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>История заказов - LVShop</title>
+    <link rel="stylesheet" href="account.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>LVShop</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/gender">Главная</a></li>
+                    <li><a href="/account">Личный кабинет</a></li>
+                    <li><a href="#" id="logout-btn">Выйти</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="account-main">
+        <div class="container">
+            <h2>История заказов</h2>
+            <div class="orders-filter">
+                <button id="reset-filters" class="btn-reset">Сбросить фильтры</button>
+                <!-- Поиск по номеру заказа -->
+                <div class="filter-group">
+                    <label for="order-id-search">Поиск по номеру:</label>
+                    <input type="text" id="order-id-search" placeholder="Введите номер заказа">
+                </div>
+                <!-- Фильтр по статусу -->
+                <div class="filter-group">
+                    <label for="status-filter">Статус:</label>
+                    <select id="status-filter">
+                        <option value="">Все заказы</option>
+                        <option value="Новый">Новый</option>
+                        <option value="В обработке">В обработке</option>
+                        <option value="Отправлен">Отправлен</option>
+                        <option value="Доставлен">Доставлен</option>
+                        <option value="Отменен">Отменен</option>
+                    </select>
+                </div>
+                <!-- Фильтр по способу доставки -->
+                <div class="filter-group">
+                    <label for="delivery-filter">Способ доставки:</label>
+                    <select id="delivery-filter">
+                        <option value="">Все способы</option>
+                        <option value="courier">Курьер</option>
+                        <option value="pickup">Самовывоз</option>
+                        <option value="post">Почта</option>
+                    </select>
+                </div>
+                <!-- Фильтр по дате -->
+                <div class="filter-group">
+                    <label>Дата:</label>
+                    <input type="date" id="date-from" placeholder="От">
+                    <input type="date" id="date-to" placeholder="До">
+                </div>
+                <!-- Сортировка -->
+                <div class="filter-group">
+                    <label for="sort-filter">Сортировка:</label>
+                    <select id="sort-filter">
+                        <option value="">Без сортировки</option>
+                        <option value="date-desc">По дате (новые)</option>
+                        <option value="date-asc">По дате (старые)</option>
+                        <option value="amount-desc">По сумме (убыв.)</option>
+                        <option value="amount-asc">По сумме (возр.)</option>
+                        <option value="status-asc">По статусу (А-Я)</option>
+                        <option value="status-desc">По статусу (Я-А)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="orders-list" id="orders-list">
+                <div class="no-orders">У вас пока нет заказов</div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="copy">&copy; 2025 LVShop. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <div id="notification" class="notification"></div>
+
+    <div id="order-details-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Детали заказа #<span id="order-id"></span></h2>
+            <p class="order-date">Дата: <span id="order-date"></span></p>
+            <p class="order-status">Статус: <span id="order-status"></span></p>
+            <p class="order-address">Адрес доставки: <span id="order-address"></span></p>
+            <p class="order-delivery">Способ доставки: <span id="order-delivery"></span></p>
+            <div class="order-items">
+                <h3>Товары:</h3>
+                <div id="order-items-list"></div>
+            </div>
+            <div class="order-total">
+                <p>Итого: <span id="order-total"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="orders.js"></script>
+</body>
+</html>

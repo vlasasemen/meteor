@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	const modal = document.getElementById('order-details-modal')
 	const closeModal = document.querySelector('.close')
 
+	
+
 	// Загрузка данных пользователя
 	loadUserData()
 

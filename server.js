@@ -562,42 +562,44 @@ app.get('/api/user-info', async (req, res) => {
 
 // Получение заказов пользователя
 app.get('/api/user-orders', async (req, res) => {
-    if (!req.session.user) {
-        return res.status(401).json({ success: false, message: 'Не авторизован' });
-    }
-
-    try {
-        const ordersResult = await db.query(
-            `SELECT з.id, з.дата_заказа as "дата_создания", з.сумма, з.адрес_доставки, 
+	const limit = parseInt(req.query.limit) || 10
+	const offset = parseInt(req.query.offset) || 0
+	if (!req.session.user) {
+		return res.status(401).json({ success: false, message: 'Не авторизован' })
+	}
+	try {
+		const ordersResult = await db.query(
+			`SELECT з.id, з.дата_заказа as "дата_создания", з.сумма, з.адрес_доставки, 
              з.способ_доставки, з.статус 
              FROM заказы з 
              WHERE з.id_пользователя = $1 
-             ORDER BY з.дата_заказа DESC`,
-            [req.session.user.id]
-        );
+             ORDER BY з.дата_заказа DESC
+             LIMIT $2 OFFSET $3`,
+			[req.session.user.id, limit, offset]
+		)
 
-        const ordersWithDetails = await Promise.all(
-            ordersResult.rows.map(async order => {
-                const detailsResult = await db.query(
-                    `SELECT д.количество, д.цена, т.название, т.изображение, т.размер 
+		const ordersWithDetails = await Promise.all(
+			ordersResult.rows.map(async order => {
+				const detailsResult = await db.query(
+					`SELECT д.количество, д.цена, т.название, т.изображение, т.размер 
                      FROM детали_заказа д 
                      JOIN товары т ON д.id_товара = т.id 
                      WHERE д.id_заказа = $1`,
-                    [order.id]
-                );
-                return {
-                    ...order,
-                    items: detailsResult.rows,
-                };
-            })
-        );
+					[order.id]
+				)
+				return {
+					...order,
+					items: detailsResult.rows,
+				}
+			})
+		)
 
-        res.json(ordersWithDetails);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, message: 'Ошибка сервера' });
-    }
-});
+		res.json(ordersWithDetails)
+	} catch (err) {
+		console.error(err)
+		res.status(500).json({ success: false, message: 'Ошибка сервера' })
+	}
+})
 
 // Обновление информации пользователя
 app.post('/api/update-user', async (req, res) => {
@@ -690,6 +692,14 @@ app.post('/logout', (req, res) => {
         }
         res.json({ success: true, message: 'Успешный выход' });
     });
+});
+
+
+app.get('/orders', async (req, res) => {
+    if (!req.session.user || req.session.user.роль !== 'покупатель') {
+        return res.redirect('/login');
+    }
+    res.sendFile(__dirname + '/public/orders.html');
 });
 
 app.listen(port, () => {
