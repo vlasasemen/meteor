@@ -521,7 +521,121 @@ header {
     }
 }
 
+/* Добавляем новые стили для фильтров и сортировки */
+.filters-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: #f5f5f5;
+    border-radius: 8px;
+    align-items: center;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.search-box {
+    position: relative;
+    flex: 1;
+    min-width: 200px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 0.5rem 1rem 0.5rem 2.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.search-box i {
+    position: absolute;
+    left: 0.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+}
+
+#sort-select, #size-filter {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: white;
+}
+
+#price-range {
+    width: 150px;
+}
+
+#price-value {
+    min-width: 120px;
+    display: inline-block;
+    text-align: right;
+}
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+    .filters-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filter-group {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    #price-range {
+        width: 100%;
+    }
+}
+
+/* Стандартные стили для карточки товара */
+.product-box {
+    position: relative;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 15px;
+    transition: all 0.3s ease;
+    max-width: 300px; /* или другое значение по вашему вкусу */
+    margin: 0 auto;
+}
+
+/* Стили, когда отображается только один товар */
+.shop-content.single-product {
+    display: flex;
+    justify-content: center;
+}
+
+.shop-content.single-product .product-box {
+    max-width: 250px; /* Уменьшенный размер */
+    padding: 10px;
+}
+
+.shop-content.single-product .product-img {
+    max-height: 200px; /* Уменьшаем изображение */
+    object-fit: contain;
+}
+
+.shop-content.single-product .product-title {
+    font-size: 1rem; /* Уменьшаем шрифт */
+}
+
+.shop-content.single-product .price {
+    font-size: 0.9rem;
+}
 
 
-
-
+@media (max-width: 768px) {
+    .shop-content.single-product .product-box {
+        max-width: 200px;
+    }
+    
+    .shop-content.single-product .product-img {
+        max-height: 150px;
+    }
+}

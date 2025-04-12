@@ -1,146 +1,234 @@
-// Выбираем элементы иконки корзины, самой корзины и кнопки закрытия корзины
-let cartIcon = document.querySelector('.cart-icon')
-let cart = document.querySelector('.cart')
-let closeCart = document.querySelector('#close-cart')
-let notification = document.getElementById('notification')
+// DOM элементы
+const cartIcon = document.querySelector('.cart-icon')
+const cart = document.querySelector('.cart')
+const closeCart = document.querySelector('#close-cart')
+const notification = document.getElementById('notification')
+const shopContent = document.querySelector('.shop-content')
 
-// Когда иконка корзины нажата, добавляем класс 'active' к корзине, чтобы показать её
-cartIcon.onclick = () => {
-	cart.classList.add('active')
-}
+// Глобальные переменные
+let allProducts = []
+let filteredProducts = []
 
-// Когда кнопка закрытия нажата, удаляем класс 'active' у корзины, чтобы скрыть её
-closeCart.onclick = () => {
-	cart.classList.remove('active')
-}
-
-// Проверяем, загружается ли документ
-if (document.readyState == 'loading') {
-	// Если да, добавляем слушатель события для выполнения функции 'ready' после полной загрузки контента
-	document.addEventListener('DOMContentLoaded', loadProducts)
+// Инициализация при загрузке страницы
+if (document.readyState === 'loading') {
+	document.addEventListener('DOMContentLoaded', init)
 } else {
-	// Если нет, выполняем функцию 'loadProducts' сразу
-	loadProducts()
+	init()
 }
 
+function init() {
+	loadProducts()
+	setupEventListeners()
+}
+
+// Загрузка товаров с сервера
 function loadProducts() {
 	fetch('/api/products')
 		.then(response => response.json())
 		.then(products => {
-			const shopContent = document.querySelector('.shop-content')
-			shopContent.innerHTML = '' // Очистка перед добавлением
-
-			products.forEach(product => {
-				const productBox = document.createElement('div')
-				productBox.classList.add('product-box')
-				productBox.setAttribute('data-id', product.id) // Добавляем id товара
-
-				productBox.innerHTML = `
-                    <img src="${product.изображение}" alt="${product.название}" class="product-img">
-                    <h2 class="product-title">${product.название}</h2>
-                    <span class="price">₽${product.цена}</span>
-                    <i class='bx bxs-shopping-bag add-cart'></i>
-                `
-
-				shopContent.appendChild(productBox)
-			})
-
-			initializeModalEvents(products) // Назначаем обработчики событий
+			allProducts = products
+			processProducts()
+			applyFilters()
 		})
 		.catch(error => console.error('Ошибка загрузки товаров:', error))
 }
 
+// Обработка товаров (группировка по названию и объединение размеров)
+function processProducts() {
+	const productsMap = new Map()
 
-// Инициализация событий модального окна
+	allProducts.forEach(product => {
+		const key = product.название
+		if (!productsMap.has(key)) {
+			productsMap.set(key, {
+				...product,
+				все_размеры: product.размер ? product.размер.split(',') : ['Не указан'],
+				все_id: [product.id],
+			})
+		} else {
+			const existingProduct = productsMap.get(key)
+			const newSizes = product.размер
+				? product.размер.split(',')
+				: ['Не указан']
+			existingProduct.все_размеры = [
+				...new Set([...existingProduct.все_размеры, ...newSizes]),
+			]
+			existingProduct.все_id.push(product.id)
+		}
+	})
+
+	filteredProducts = Array.from(productsMap.values())
+}
+
+// Настройка обработчиков событий
+function setupEventListeners() {
+	// Корзина
+	cartIcon.addEventListener('click', () => cart.classList.add('active'))
+	closeCart.addEventListener('click', () => cart.classList.remove('active'))
+
+	// Фильтры
+	document
+		.getElementById('search-input')
+		.addEventListener('input', applyFilters)
+	document
+		.getElementById('sort-select')
+		.addEventListener('change', applyFilters)
+	document
+		.getElementById('size-filter')
+		.addEventListener('change', applyFilters)
+
+	// Диапазон цен
+	const priceRange = document.getElementById('price-range')
+	const priceValue = document.getElementById('price-value')
+	priceRange.addEventListener('input', () => {
+		priceValue.textContent = `До ₽${parseInt(priceRange.value).toLocaleString(
+			'ru-RU'
+		)}`
+		applyFilters()
+	})
+}
+
+// Применение фильтров и сортировки
+function applyFilters() {
+	const searchTerm = document.getElementById('search-input').value.toLowerCase()
+	const sortValue = document.getElementById('sort-select').value
+	const sizeFilter = document.getElementById('size-filter').value
+	const maxPrice = parseInt(document.getElementById('price-range').value)
+
+	let productsToDisplay = [...filteredProducts]
+
+	// Фильтрация
+	productsToDisplay = productsToDisplay.filter(product => {
+		const matchesSearch =
+			product.название.toLowerCase().includes(searchTerm) ||
+			(product.описание && product.описание.toLowerCase().includes(searchTerm))
+		const matchesSize =
+			sizeFilter === 'all' || product.все_размеры.includes(sizeFilter)
+		const matchesPrice = product.цена <= maxPrice
+
+		return matchesSearch && matchesSize && matchesPrice
+	})
+
+	// Сортировка
+	productsToDisplay.sort((a, b) => {
+		switch (sortValue) {
+			case 'price-asc':
+				return a.цена - b.цена
+			case 'price-desc':
+				return b.цена - a.цена
+			case 'name-asc':
+				return a.название.localeCompare(b.название)
+			case 'name-desc':
+				return b.название.localeCompare(a.название)
+			default:
+				return 0
+		}
+	})
+
+	renderProducts(productsToDisplay)
+}
+
+// Отображение товаров
+function renderProducts(products) {
+	const shopContent = document.querySelector('.shop-content')
+	shopContent.innerHTML = ''
+
+	// Добавляем класс в зависимости от количества товаров
+	if (products.length === 1) {
+		shopContent.classList.add('single-product')
+	} else {
+		shopContent.classList.remove('single-product')
+	}
+
+	products.forEach(product => {
+		const productBox = document.createElement('div')
+		productBox.classList.add('product-box')
+		productBox.setAttribute('data-id', product.id)
+
+		productBox.innerHTML = `
+            <img src="${product.изображение}" alt="${
+			product.название
+		}" class="product-img">
+            <h2 class="product-title">${product.название}</h2>
+            <div class="product-sizes">Размеры: ${product.все_размеры.join(
+							', '
+						)}</div>
+            <span class="price">₽${product.цена.toLocaleString('ru-RU')}</span>
+            <i class='bx bxs-shopping-bag add-cart'></i>
+        `
+
+		shopContent.appendChild(productBox)
+	})
+
+	initializeModalEvents(products)
+}
+
+// Инициализация модального окна
 function initializeModalEvents(products) {
 	const addToCartButtons = document.querySelectorAll('.add-cart')
 	const productModal = document.getElementById('product-modal')
 	const closeModal = document.querySelector('.close')
 	const modalProductImg = document.getElementById('modal-product-img')
 	const modalProductTitle = document.getElementById('modal-product-title')
-	const modalProductDescription = document.getElementById('modal-product-description')
+	const modalProductDescription = document.getElementById(
+		'modal-product-description'
+	)
 	const modalProductPrice = document.getElementById('modal-product-price')
 	const sizeSelector = document.getElementById('size')
 	const addToCartModalButton = document.getElementById('add-to-cart-modal')
 
-	// Открытие модального окна
 	addToCartButtons.forEach((button, index) => {
 		button.addEventListener('click', () => {
-			const product = products[index] // Используем индекс, чтобы найти продукт
-
-			// Заполняем модальное окно данными
+			const product = products[index]
 			modalProductImg.src = product.изображение
 			modalProductTitle.innerText = product.название
+			modalProductTitle.setAttribute('data-id', product.id)
 			modalProductDescription.innerText = product.описание || 'Нет описания'
-			modalProductPrice.innerText = '₽' + product.цена
+			modalProductPrice.innerText = `₽${product.цена.toLocaleString('ru-RU')}`
 
-			// Динамически создаем варианты размеров в зависимости от данных из базы
-			sizeSelector.innerHTML = ''; // Очищаем текущие опции
-			const sizes = product.размер ? product.размер.split(',') : ['Не указан'];
-			sizes.forEach(size => {
-				const option = document.createElement('option');
-				option.value = size;
-				option.innerText = size;
-				sizeSelector.appendChild(option);
-			});
+			sizeSelector.innerHTML = ''
+			product.все_размеры.forEach(size => {
+				const option = document.createElement('option')
+				option.value = size
+				option.innerText = size
+				sizeSelector.appendChild(option)
+			})
 
-			// Показываем модальное окно
 			productModal.style.display = 'flex'
 		})
 	})
 
-	// Закрытие модального окна
 	closeModal.addEventListener('click', () => {
 		productModal.style.display = 'none'
 	})
 
-	// Добавление товара в корзину из модального окна
 	addToCartModalButton.addEventListener('click', () => {
 		const selectedSize = sizeSelector.value
-		const product = products.find(
-			p => p.название === modalProductTitle.innerText
-		)
+		const productId = modalProductTitle.getAttribute('data-id')
+		const product = allProducts.find(p => p.id == productId)
 
 		if (!product) {
 			alert('Товар не найден!')
 			return
 		}
 
-		// Проверяем, есть ли уже такой товар в корзине
-		const cartItems = Array.from(document.getElementsByClassName('cart-box'))
-		const isDuplicate = cartItems.some(cartBox => {
-			const cartItemId = cartBox
-				.querySelector('.cart-product-title')
-				.getAttribute('data-id')
-			const cartItemSize = cartBox
-				.querySelector('.cart-size')
-				.innerText.split(': ')[1]
-			return cartItemId == product.id && cartItemSize == selectedSize
-		})
-
-		if (isDuplicate) {
+		if (isProductInCart(productId, selectedSize)) {
 			alert('Этот товар уже добавлен в корзину!')
 			return
 		}
 
-		// Добавление товара
 		addProductToCart(
 			product.название,
 			product.цена,
 			product.изображение,
 			selectedSize,
-			product.id
+			productId
 		)
 
-		// Уведомление об успешном добавлении
-		alert(`Товар добавлен в корзину. Размер: ${selectedSize}`)
-
-		// Закрытие модального окна
+		showNotification(`Товар добавлен в корзину. Размер: ${selectedSize}`)
 		productModal.style.display = 'none'
 	})
 
-
-	// Закрытие модального окна при клике вне его
 	window.addEventListener('click', e => {
 		if (e.target === productModal) {
 			productModal.style.display = 'none'
@@ -148,21 +236,10 @@ function initializeModalEvents(products) {
 	})
 }
 
-
-function addProductToCart(
-	title,
-	price,
-	productImg,
-	size = 'Не выбран',
-	productId
-) {
-	// Выбираем элемент, содержащий товары в корзине
-	var cartItems = document.getElementsByClassName('cart-content')[0]
-
-	// Проверяем, есть ли уже товар с таким же ID и размером в корзине
-	var existingCartItem = Array.from(
-		cartItems.getElementsByClassName('cart-box')
-	).find(cartBox => {
+// Проверка наличия товара в корзине
+function isProductInCart(productId, size) {
+	const cartItems = Array.from(document.getElementsByClassName('cart-box'))
+	return cartItems.some(cartBox => {
 		const cartItemId = cartBox
 			.querySelector('.cart-product-title')
 			.getAttribute('data-id')
@@ -171,107 +248,172 @@ function addProductToCart(
 			.innerText.split(': ')[1]
 		return cartItemId == productId && cartItemSize == size
 	})
+}
 
-	if (existingCartItem) {
-		alert('Этот товар уже добавлен в корзину!')
-		return
+// Добавление товара в корзину
+function addProductToCart(
+	title,
+	price,
+	productImg,
+	size = 'Не выбран',
+	productId
+) {
+	const normalizedSize = size.trim()
+
+	if (isProductInCart(productId, normalizedSize)) {
+		showNotification('Этот товар уже добавлен в корзину!')
+		return false
 	}
 
-	// Создаем элемент корзины с деталями товара
-	var cartShopBox = document.createElement('div')
-	cartShopBox.classList.add('cart-box')
-
-	var cartBoxContent = `
-        <img src="${productImg}" alt="" class="cart-img">
+	const cartContent = document.querySelector('.cart-content')
+	const cartBox = document.createElement('div')
+	cartBox.className = 'cart-box'
+	cartBox.innerHTML = `
+        <img src="${productImg}" class="cart-img">
         <div class="detail-box">
             <div class="cart-product-title" data-id="${productId}">${title}</div>
-            <div class="cart-price">₽${price}</div>
-            <div class="cart-size">Размер: ${size}</div>
-            <input type="number" value="1" class="cart-quantity">
+            <div class="cart-price">₽${price.toLocaleString()}</div>
+            <div class="cart-size">Размер: ${normalizedSize}</div>
+            <input type="number" value="1" class="cart-quantity" min="1">
         </div>
         <i class='bx bxs-trash-alt cart-remove'></i>
     `
 
-	cartShopBox.innerHTML = cartBoxContent
-	cartItems.append(cartShopBox)
+	cartContent.appendChild(cartBox)
 
-	// Добавляем слушатели событий для удаления товаров и изменения количества
-	cartShopBox
-		.getElementsByClassName('cart-remove')[0]
+	// Добавляем обработчики событий
+	cartBox
+		.querySelector('.cart-remove')
 		.addEventListener('click', removeCartItem)
-	cartShopBox
-		.getElementsByClassName('cart-quantity')[0]
+	cartBox
+		.querySelector('.cart-quantity')
 		.addEventListener('change', quantityChanged)
 
-	// Обновляем счетчик товаров в корзине
-	var cartCount = document.getElementById('cart-count')
-	var currentCount = parseInt(cartCount.innerText)
-	cartCount.innerText = currentCount + 1
+	// Обновляем корзину (добавляем все необходимые функции)
+	updateCartCount(1) // Увеличиваем счётчик на 1
+	updateTotal() // Обновляем общую сумму
+	animateCartIcon() // Анимация иконки корзины
+	showNotification(`"${title}" (${normalizedSize}) добавлен в корзину`) // Уведомление
 
-	// Обновляем общую стоимость
-	updatetotal()
+	return true
 }
 
+// Функция обновления счётчика товаров
+function updateCartCount(change) {
+	const cartCount = document.getElementById('cart-count')
+	let currentCount = parseInt(cartCount.textContent) || 0
+	currentCount += change
+	cartCount.textContent = currentCount
+	cartCount.style.display = currentCount > 0 ? 'block' : 'none'
+}
 
+// Функция анимации иконки корзины
+function animateCartIcon() {
+	const cartIcon = document.querySelector('.cart-icon')
+	cartIcon.classList.add('animate')
+	setTimeout(() => cartIcon.classList.remove('animate'), 500)
+}
 
+// Функция показа уведомлений
+function showNotification(message) {
+	const notification = document.getElementById('notification')
+	notification.textContent = message
+	notification.style.display = 'block'
 
+	// Скрываем уведомление через 3 секунды
+	setTimeout(() => {
+		notification.style.display = 'none'
+	}, 3000)
+}
 
-// Функция для удаления товара из корзины
+// Удаление товара из корзины
 function removeCartItem(event) {
-	var buttonClicked = event.target
-	var cartBox = buttonClicked.parentElement
-	var quantityElement = cartBox.getElementsByClassName('cart-quantity')[0]
-	var quantity = parseInt(quantityElement.value)
+	const buttonClicked = event.target
+	const cartBox = buttonClicked.parentElement
+	const quantity = parseInt(cartBox.querySelector('.cart-quantity').value)
 
-	cartBox.remove() // Удаляем товар из корзины
-
-	// Обновляем общую стоимость
-	updatetotal()
-
-	// Обновляем счетчик товаров в корзине
-	var cartCount = document.getElementById('cart-count')
-	var currentCount = parseInt(cartCount.innerText)
-	cartCount.innerText = Math.max(0, currentCount - quantity) // Учитываем количество удаляемого товара
+	cartBox.remove()
+	updateCartCount(-quantity)
+	updateTotal()
 }
 
-// Функция для обработки изменений количества товаров в корзине
+// Изменение количества товара
 function quantityChanged(event) {
-	var input = event.target
-	// Проверяем, является ли введенное значение положительным числом
+	const input = event.target
 	if (isNaN(input.value) || input.value <= 0) {
 		input.value = 1
 	}
-	updatetotal()
+
+	const productId = input
+		.closest('.cart-box')
+		.querySelector('.cart-product-title')
+		.getAttribute('data-id')
+	checkProductAvailability(productId, input)
+
+	updateTotal()
 }
 
-// Функция для обновления общей стоимости товаров в корзине
-function updatetotal() {
-	var cartContent = document.getElementsByClassName('cart-content')[0]
-	var cartBoxes = cartContent.getElementsByClassName('cart-box')
-	var total = 0
+// Проверка доступного количества товара
+function checkProductAvailability(productId, inputElement) {
+	fetch(`/api/products/${productId}`)
+		.then(response => response.json())
+		.then(product => {
+			if (inputElement.value > product.количество) {
+				alert(
+					`Доступно только ${product.количество} штук товара "${product.название}".`
+				)
+				inputElement.value = product.количество
+			}
+		})
+		.catch(error => console.error('Ошибка проверки количества товара:', error))
+}
 
-	// Проходим по каждому товару в корзине, чтобы рассчитать общую стоимость
-	for (var i = 0; i < cartBoxes.length; i++) {
-		var cartBox = cartBoxes[i]
-		var priceElement = cartBox.getElementsByClassName('cart-price')[0]
-		var quantityElement = cartBox.getElementsByClassName('cart-quantity')[0]
-		var price = parseFloat(
+// Обновление общей суммы
+function updateTotal() {
+	const cartContent = document.getElementsByClassName('cart-content')[0]
+	const cartBoxes = cartContent.getElementsByClassName('cart-box')
+	let total = 0
+
+	for (let i = 0; i < cartBoxes.length; i++) {
+		const cartBox = cartBoxes[i]
+		const priceElement = cartBox.getElementsByClassName('cart-price')[0]
+		const quantityElement = cartBox.getElementsByClassName('cart-quantity')[0]
+
+		const price = parseFloat(
 			priceElement.innerText.replace('₽', '').replace(/\s/g, '')
 		)
-		var quantity = quantityElement.value
+		const quantity = quantityElement.value
 
-		// Добавляем произведение цены и количества товара к общей стоимости
 		total += price * quantity
 	}
 
-	// Обновляем элемент общей стоимости с рассчитанной суммой
-	document.getElementsByClassName('total-price')[0].innerText = '₽' + total
+	document.getElementsByClassName(
+		'total-price'
+	)[0].innerText = `₽${total.toLocaleString('ru-RU')}`
 }
 
+// Обновление счетчика товаров
+function updateCartCount(change) {
+	const cartCount = document.getElementById('cart-count')
+	const currentCount = parseInt(cartCount.innerText) || 0
+	cartCount.innerText = Math.max(0, currentCount + change)
+}
 
-// Отправка заказа на сервер
+// Анимация иконки корзины
+function animateCartIcon() {
+	cartIcon.classList.add('added')
+	setTimeout(() => cartIcon.classList.remove('added'), 600)
+}
+
+// Показ уведомления
+function showNotification(message) {
+	notification.textContent = message
+	notification.style.display = 'block'
+	setTimeout(() => (notification.style.display = 'none'), 3000)
+}
+
+// Оформление заказа
 function placeOrder() {
-	// Сохраняем содержимое корзины в локальном хранилище перед переходом
 	const cartItems = []
 	const cartBoxes = document.querySelectorAll('.cart-box')
 
@@ -292,35 +434,3 @@ function placeOrder() {
 	localStorage.setItem('cartItems', JSON.stringify(cartItems))
 	window.location.href = 'checkout.html'
 }
-
-function quantityChanged(event) {
-	var input = event.target
-	var cartBox = input.closest('.cart-box')
-	var productId = parseInt(
-		cartBox.querySelector('.cart-product-title').getAttribute('data-id')
-	)
-
-	fetch(`/api/products/${productId}`)
-		.then(response => response.json())
-		.then(product => {
-			if (input.value > product.количество) {
-				alert(
-					`Доступно только ${product.количество} штук товара "${product.название}".`
-				)
-				input.value = product.количество
-			} else if (input.value <= 0 || isNaN(input.value)) {
-				input.value = 1
-			}
-
-			updatetotal()
-		})
-		.catch(error => console.error('Ошибка проверки количества товара:', error))
-}
-
-
-
-
-
-
-
-

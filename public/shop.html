@@ -34,6 +34,42 @@
 
     <section class="shop container">
         <h2 class="section-title">Кепки</h2>
+        
+        <!-- Добавляем блок фильтров и сортировки -->
+        <div class="filters-container">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Поиск товаров...">
+                <i class='bx bx-search'></i>
+            </div>
+            
+            <div class="filter-group">
+                <label for="sort-select">Сортировка:</label>
+                <select id="sort-select">
+                    <option value="default">По умолчанию</option>
+                    <option value="price-asc">Цена по возрастанию</option>
+                    <option value="price-desc">Цена по убыванию</option>
+                    <option value="name-asc">Название (А-Я)</option>
+                    <option value="name-desc">Название (Я-А)</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="size-filter">Размер:</label>
+                <select id="size-filter">
+                    <option value="all">Все размеры</option>
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="price-range">Цена:</label>
+                <input type="range" id="price-range" min="0" max="5000000" step="10000" value="5000000">
+                <span id="price-value">До ₽5,000,000</span>
+            </div>
+        </div>
+        
         <div class="shop-content" id="shop-content">
             <!-- Товары будут загружаться сюда -->
         </div>
