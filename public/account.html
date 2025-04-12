@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет - LVShop</title>
+    <link rel="stylesheet" href="account.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>LVShop</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/gender">Главная</a></li>
+                    <li><a href="/account" class="active">Личный кабинет</a></li>
+                    <li><a href="#" id="logout-btn">Выйти</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="account-main">
+        <div class="container">
+            <div class="account-wrapper">
+                <aside class="account-sidebar">
+                    <div class="user-profile">
+                        <div class="avatar">
+                            <i class='bx bxs-user'></i>
+                        </div>
+                        <h2 id="user-name">ОЛЕГ Антонов</h2>
+                        <p id="user-email">ad222@mail.ru</p>
+                    </div>
+                    
+                    <nav class="account-menu">
+                        <ul>
+                            <li class="active" data-tab="profile">
+                                <i class='bx bxs-user'></i> Профиль
+                            </li>
+                            <li data-tab="orders">
+                                <i class='bx bxs-package'></i> Мои заказы
+                            </li>
+                            <li data-tab="settings">
+                                <i class='bx bxs-cog'></i> Настройки
+                            </li>
+                        </ul>
+                    </nav>
+                </aside>
+                
+                <div class="account-content">
+                    <!-- Вкладка профиля -->
+                    <div class="tab-content active" id="profile-tab">
+                        <h2>Мой профиль</h2>
+                        <form id="profile-form">
+                            <div class="form-group">
+                                <label for="name">Имя</label>
+                                <input type="text" id="name" name="name" value="ОЛЕГ" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="surname">Фамилия</label>
+                                <input type="text" id="surname" name="surname" value="Антонов" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" value="ad222@mail.ru" required>
+                            </div>
+                            <button type="submit" class="btn-save">Сохранить изменения</button>
+                        </form>
+                    </div>
+                    
+                    <!-- Вкладка заказов -->
+                    <div class="tab-content" id="orders-tab">
+                        <h2>Мои заказы</h2>
+                        <div class="orders-list" id="orders-list">
+                            <div class="no-orders">У вас пока нет заказов</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Вкладка настроек -->
+                    <div class="tab-content" id="settings-tab">
+                        <h2>Настройки аккаунта</h2>
+                        <form id="password-form">
+                            <div class="form-group">
+                                <label for="current-password">Текущий пароль</label>
+                                <input type="password" id="current-password" name="currentPassword" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-password">Новый пароль</label>
+                                <input type="password" id="new-password" name="newPassword" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-password">Подтвердите новый пароль</label>
+                                <input type="password" id="confirm-password" name="confirmPassword" required>
+                            </div>
+                            <button type="submit" class="btn-save">Изменить пароль</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="copy">&copy; 2025 LVShop. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <div id="notification" class="notification"></div>
+
+    <script src="account.js"></script>
+    <div id="order-details-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Детали заказа #<span id="order-id"></span></h2>
+        <p class="order-date">Дата: <span id="order-date"></span></p>
+        <p class="order-status">Статус: <span id="order-status"></span></p>
+        <p class="order-address">Адрес доставки: <span id="order-address"></span></p>
+        <p class="order-delivery">Способ доставки: <span id="order-delivery"></span></p>
+        
+        <div class="order-items">
+            <h3>Товары:</h3>
+            <div id="order-items-list"></div>
+        </div>
+        
+        <div class="order-total">
+            <p>Итого: <span id="order-total"></span></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

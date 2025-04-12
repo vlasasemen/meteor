@@ -78,5 +78,51 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
+document.addEventListener('DOMContentLoaded', function () {
+	// Проверка авторизации при загрузке страницы
+	checkAuthStatus()
+
+	// Обработчик для ссылки на личный кабинет
+	const accountLink = document.getElementById('account-link')
+	if (accountLink) {
+		accountLink.addEventListener('click', function (e) {
+			// Проверяем авторизацию перед переходом
+			fetch('/api/user-info')
+				.then(response => {
+					if (!response.ok) {
+						// Если не авторизован, перенаправляем на страницу входа
+						e.preventDefault()
+						window.location.href = '/login'
+						throw new Error('Не авторизован')
+					}
+					// Если авторизован, переход разрешен
+				})
+				.catch(error => {
+					console.error('Ошибка проверки авторизации:', error)
+				})
+		})
+	}
+
+	// Функция проверки статуса авторизации
+	function checkAuthStatus() {
+		fetch('/api/user-info')
+			.then(response => {
+				if (!response.ok) {
+					// Пользователь не авторизован
+					return
+				}
+				return response.json()
+			})
+			.then(user => {
+				if (user) {
+					// Можно добавить дополнительные действия для авторизованного пользователя
+					console.log('Пользователь авторизован:', user)
+				}
+			})
+			.catch(error => {
+				console.error('Ошибка проверки авторизации:', error)
+			})
+	}
+})
         
 

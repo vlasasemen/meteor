@@ -29,39 +29,7 @@ body {
     line-height: 1.55;
 }
 
-.img {
-    background-size: cover;
-    background-position: center;
-    color: #fffb00;
-    text-shadow: 0 0 15px #eca12f;
-    display: flex;
-    align-items: center;
-    position: relative;
-    text-align: center;
-    padding: var(--index);
-}
-
-.footer {
-    background-size: cover;
-    background-position: center;
-    color: #fffb00;
-    text-shadow: 0 0 15px #eca12f;
-    display: flex;
-    align-items: center;
-    position: relative;
-    text-align: center;
-    justify-content: center;
-    padding: calc(var(--index) * 2);
-    margin-top: auto;
-}
-
-.copy {
-    position: absolute;
-    bottom: calc(var(--index) * 1);
-    opacity: 0.45;
-    font-size: calc(var(--index) * 0.65);
-}
-
+/* Header styles */
 header {
     background-color: #333;
     color: white;
@@ -69,40 +37,94 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-image: url(img/LV4.2.jpg);
+    background-size: cover;
+    background-position: center;
 }
 
 header .logo h1 {
     margin: 0;
+    color: #fffb00;
+    text-shadow: 0 0 15px #eca12f;
 }
 
-header nav ul {
+/* Navigation styles */
+nav {
+    display: flex;
+    align-items: center;
+}
+
+nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
+    align-items: center;
+    gap: calc(var(--index) * 1.5);
 }
 
-header nav ul li {
-    margin-right: calc(var(--index) * 2);
-    margin-left: calc(var(--index) * 1);
+nav ul li {
     position: relative;
 }
 
-header nav ul li a {
+nav ul li a {
     color: rgb(255, 230, 0);
     text-decoration: none;
     padding: 8px 16px;
     border: 2px solid transparent;
     transition: all 0.3s;
-    background-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
-header nav ul li a:hover {
+nav ul li a:hover {
     color: #eca12f;
     border: 2px solid #fffb00;
-    background-color: #333;
+    background-color: rgba(51, 51, 51, 0.7);
 }
 
+/* Dropdown styles */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #333;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border: 2px solid #fffb00;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    padding: 12px 16px;
+    border-bottom: 1px solid #fffb00;
+    white-space: nowrap;
+}
+
+.dropdown-content a:last-child {
+    border-bottom: none;
+}
+
+.dropdown-content img {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}
+
+/* Account link styles */
+#account-link::before {
+    content: "👤";
+    margin-right: 5px;
+    font-size: 1.2em;
+}
+
+/* Video background styles */
 .video-bg {
     height: calc(100vh - var(--index) * 7.8);
     width: 100%;
@@ -122,83 +144,21 @@ header nav ul li a:hover {
     object-fit: cover;
 }
 
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #333;
-    min-width: calc(var(--index) * 6); 
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    border: 2px solid #fffb00;
-    background-color: #333;
-}
-
-.dropdown-content a {
-    color: rgb(255, 230, 0);
-    padding: calc(var(--index) * 0.75) calc(var(--index) * 1.5);
-    text-decoration: none;
-    display: block;
-    border-bottom: 1px solid #fffb00;
-    background-color: transparent;
-}
-
-.dropdown-content a:hover {
-    background-color: #555;
-}
-
-.dropdown-content a:last-child {
-    border-bottom: none;
-}
-
-.show {
-    display: block;
-}
-.dropdown-content img{
-    width: calc(var(--index) * 2);
-    height: auto;
-}
-
-.main {
+/* Footer styles */
+footer {
+    background-image: url(img/LV4.2.jpg);
+    background-size: cover;
+    background-position: center;
+    color: #fffb00;
+    text-shadow: 0 0 15px #eca12f;
     display: flex;
-    flex-direction: column; /* Размещаем элементы по вертикали */
     justify-content: center;
     align-items: center;
-    flex: 1;
-    text-align: center; /* Центрируем текст */
-    gap: 2rem; /* Расстояние между текстом и кнопками */
+    padding: calc(var(--index) * 1);
+    margin-top: auto;
 }
 
-.text-container {
-    font-size: calc(var(--index) * 1); /* Можно подкорректировать размер текста */
-    color: #fffb00;
-    text-shadow: 0 0 10px #eca12f;
-    background-color: rgba(255, 255, 255, 0.582);
-    border-radius: calc(var(--index) / 3);
-    padding: calc(var(--index) * 0.5);
-    max-width: calc(var(--index) * 30);
-}
-
-.button-container {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-}
-
-button {
-    padding: 15px 30px;
-    font-size: 1.2rem;
-    background-color: #333;
-    color: #fffb00;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: #eca12f;
+.copy {
+    opacity: 0.45;
+    font-size: calc(var(--index) * 0.65);
 }
