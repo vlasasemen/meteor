@@ -1,0 +1,78 @@
+.stats-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: calc(var(--index) * 0.5);
+}
+
+.stats-section {
+    flex: 1;
+    min-width: 300px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: calc(var(--index) * 0.5);
+    border-radius: calc(var(--index) / 3);
+    border: 2px solid #fffb00;
+}
+
+.stats-section h3 {
+    color: #fffb00;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.stats-list p {
+    color: #fff;
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+}
+
+.stats-list span {
+    color: #fffb00;
+    font-weight: bold;
+}
+
+#page-visits, #product-sales {
+    margin-top: 1.5rem;
+}
+
+#page-visits h4, #product-sales h4 {
+    color: #fffb00;
+    margin-bottom: 0.5rem;
+}
+
+#page-visits-list, #product-sales-list {
+    color: #fff;
+    list-style-type: none;
+    padding: 0;
+}
+
+#page-visits-list li, #product-sales-list li {
+    margin: 0.3rem 0;
+    padding: 0.3rem;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+/* Добавьте это в ваш файл visits-sales-statistics.css */
+
+#page-visits-list, #product-sales-list {
+    max-height: 300px; /* Ограничение высоты списка */
+    overflow-y: auto;  /* Добавление прокрутки при необходимости */
+    word-break: break-all; /* Перенос длинных слов */
+    padding: 0.5rem;
+    margin: 0;
+}
+
+#page-visits-list li, #product-sales-list li {
+    margin: 0.3rem 0;
+    padding: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    white-space: normal; /* Разрешить перенос текста */
+    overflow-wrap: break-word; /* Переносить длинные слова */
+    max-width: 100%; /* Ограничить ширину элемента */
+}

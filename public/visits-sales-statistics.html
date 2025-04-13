@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Статистика посещений и продаж</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="visits-sales-statistics.css">
+</head>
+<body>
+    <header class="img" style="background-image:url(img/LV4.2.jpg);">
+        <div class="logo">
+            <h1>LVShop - Статистика посещений и продаж</h1>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="text-container">
+            <h2>Статистика посещений и продаж</h2>
+            <p>Общие данные о посещаемости сайта и продажах.</p>
+        </div>
+
+        <div class="stats-container">
+            <div class="stats-section">
+                <h3>Посещения</h3>
+                <div class="stats-list" id="visits-stats">
+                    <p>Всего посещений: <span id="total-visits">0</span></p>
+                    <p>Уникальных посетителей: <span id="unique-visitors">0</span></p>
+                </div>
+                <div id="page-visits">
+                    <h4>Посещения страниц:</h4>
+                    <ul id="page-visits-list"></ul>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <h3>Продажи</h3>
+                <div class="stats-list" id="sales-stats">
+                    <p>Всего заказов: <span id="total-orders">0</span></p>
+                    <p>Общая сумма продаж: <span id="total-sales">0</span></p>
+                </div>
+                <div id="product-sales">
+                    <h4>Продажи товаров:</h4>
+                    <ul id="product-sales-list"></ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="visits-sales-statistics.js"></script>
+</body>
+</html>
