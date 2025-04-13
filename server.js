@@ -81,13 +81,16 @@ app.use(
 	})
 )
 
-// Подключение к PostgreSQL
+const { Pool } = require('pg')
+
 const db = new Pool({
-	host: 'localhost',
-	user: 'postgres',
-	password: '1111',
-	database: 'интернет_магазин',
-	port: 5432,
+	connectionString:
+		process.env.DATABASE_URL ||
+		'postgresql://postgres:1111@localhost:5432/интернет_магазин',
+	ssl:
+		process.env.NODE_ENV === 'production'
+			? { rejectUnauthorized: false }
+			: false,
 })
 
 db.connect(err => {
@@ -97,6 +100,7 @@ db.connect(err => {
 	}
 	console.log('Подключено к базе данных PostgreSQL')
 })
+
 
 app.use(express.static(__dirname + '/public'))
 
