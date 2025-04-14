@@ -21,6 +21,7 @@ body {
     color: #fff;
     font-family: raleway_f, sans-serif;
     line-height: 1.55;
+    overflow-x: hidden;
 }
 .main-header {
     position: relative;
@@ -104,18 +105,18 @@ body {
 }
 .main-article__paragraph {
     max-width: calc(var(--index) * 30);
-    font-size: calc(var(--index) * 0.95); /* Увеличен размер текста */
+    font-size: calc(var(--index) * 0.95);
     margin-top: calc(var(--index) / -3);
-    line-height: 1; /* Добавлено больше межстрочного интервала для читаемости */
+    line-height: 1;
     transform: translate3d(0, calc(var(--scrollTop) / -20.5), 0);
     transition: var(--transition);
     will-change: transform;
-    text-align: justify; /* Добавлено выравнивание по ширине */
-    color: #fffb00; /* Текст сделан ярче для контраста */
-    text-shadow: 0 0 10px #eca12f; /* Добавлена легкая подсветка для акцента */
-    padding: calc(var(--index) * 0.5); /* Добавлены отступы для комфортного чтения */
-    background-color: rgba(255, 255, 255, 0.582); /* Добавлен полупрозрачный фон */
-    border-radius: calc(var(--index) / 3); /* Закруглены края */
+    text-align: justify;
+    color: #fffb00;
+    text-shadow: 0 0 10px #eca12f;
+    padding: calc(var(--index) * 0.5);
+    background-color: rgba(255, 255, 255, 0.582);
+    border-radius: calc(var(--index) / 3);
 }
 .catalog-button {
     margin-top: calc(var(--index) * -1);
@@ -175,7 +176,6 @@ body {
 }
 .right-gallery {
     margin-right: calc(var(--index) * 50);
-    
 }
 .vertical-gallery img {
     width: calc(var(--index) * 10);
@@ -228,9 +228,9 @@ body {
 .half {
     flex: 1;
     display: flex;
-    flex-direction: column; /* Располагаем элементы вертикально */
-    align-items: center;    /* Центрируем элементы по горизонтали */
-    justify-content: center; /* Центрируем элементы по вертикали */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     transition: transform 0.3s ease-in-out;
     cursor: pointer;
     position: relative;
@@ -246,7 +246,7 @@ body {
 }
 
 .gender-text {
-    margin-top: calc(var(--index) * 0.5); /* Расстояние между картинкой и текстом */
+    margin-top: calc(var(--index) * 0.5);
     font-size: calc(var(--index) * 1.2);
     color: #fffb00;
     text-align: center;
@@ -254,8 +254,6 @@ body {
     font-weight: bold;
 }
 
-
-/* Надпись с заголовком */
 .gender-title {
     text-align: center;
     font-size: calc(var(--index) * 2);
@@ -269,17 +267,145 @@ body {
     transform: translateX(-50%);
 }
 
-/* Рамки и подсветка при наведении */
 .half.left:hover .gender-image {
     transform: scale(1.05);
     opacity: 0.9;
-    border: 5px solid #1e90ff; /* Розовая рамка для женской */
+    border: 5px solid #1e90ff;
 }
 
 .half.right:hover .gender-image {
     transform: scale(1.05);
     opacity: 0.9;
-    border: 5px solid #ff69b4; /* Синяя рамка для мужской */
+    border: 5px solid #ff69b4;
 }
 
+/* Мобильные стили */
+/* Мобильные стили */
+@media (max-width: 768px) {
+    :root {
+        --index: calc(1vw + 1vh + 0.5vmin);
+    }
+    
+    .layers__title {
+        font-size: calc(var(--index) * 3.5);
+    }
+    
+    .layers__caption {
+        font-size: calc(var(--index) * 1.2);
+    }
+    
+    .main-article__header {
+        font-size: calc(var(--index) * 1.5);
+    }
+    
+    .main-article__paragraph {
+        max-width: 90%;
+        font-size: calc(var(--index) * 0.8);
+        padding: 15px;
+        margin-top: 20px;
+    }
+    
+    .main-article__content {
+        padding-bottom: 100px;
+    }
+    
+    .catalog-button {
+        font-size: calc(var(--index) * 1);
+        padding: 10px 20px;
+        position: relative;
+        z-index: 10;
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+    
+    .vertical-gallery {
+        position: relative;
+        top: auto;
+        margin: 20px 0;
+        transform: none !important;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    .left-gallery, .right-gallery {
+        margin: 0;
+        position: relative;
+        gap: 15px;
+    }
+    
+    .vertical-gallery img {
+        width: 45%;
+        max-width: 200px;
+        margin-bottom: 15px;
+    }
+    
+    .scroll-hint {
+        left: 50%;
+        bottom: 30px;
+    }
+    
+    .arrow {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .social-icon img {
+        width: 30px;
+    }
+    
+    .layer__header {
+        bottom: 30%;
+        width: 100%;
+        padding: 0 20px;
+    }
+    
+    .main-article__content {
+        padding: 20px;
+    }
+    
+    .gender-container {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .half {
+        padding: 40px 0;
+    }
+    
+    .gender-title {
+        position: relative;
+        top: auto;
+        margin: 20px 0;
+    }
+}
 
+@media (max-width: 480px) {
+    .layers__title {
+        font-size: calc(var(--index) * 2.8);
+    }
+    
+    .main-article__paragraph {
+        font-size: calc(var(--index) * 0.7);
+        text-align: left;
+    }
+    
+    .vertical-gallery img {
+        width: 100%;
+        max-width: none;
+    }
+    
+    .catalog-button {
+        width: 100%;
+        margin: 30px 0;
+    }
+    
+    .social-icons {
+        flex-wrap: wrap;
+    }
+    
+    .social-icon {
+        margin: 5px;
+    }
+}
