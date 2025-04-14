@@ -338,19 +338,26 @@ footer {
     }
 
     .logo {
-    flex-shrink: 0; /* Предотвращает сжатие логотипа */
-}
-.burger-menu {
-        display: flex;
-        flex-direction: column;
-        cursor: pointer;
-        padding: 3px; /* Уменьшили отступы */
-        z-index: 1000;
-        margin-right: 10px; /* Сдвигаем влево за счет отступа справа */
-        transform: scale(2); /* Уменьшаем размер */
+        flex-shrink: 0; /* Предотвращает сжатие логотипа */
+    }
+
+    /* Добавляем стили для бургер-меню */
+    .burger-menu {
+        padding: 8px; /* Уменьшаем отступ */
+        margin-right: 5px; /* Меньший отступ справа */
+        transform: scale(1.3); /* Уменьшаем масштаб */
+        position: absolute; /* Фиксируем позицию */
+        right: 5px; /* Ближе к правому краю */
+        top: 50%; /* Центрируем по вертикали */
+        transform: translateY(-50%) scale(1.3); /* Комбинируем центрирование и масштаб */
+    }
+
+    .burger-menu span {
+        width: 18px; /* Меньшая ширина линий */
+        height: 2px; /* Меньшая толщина линий */
+        margin: 3px 0; /* Корректируем расстояние между линиями */
     }
 }
-
 @media (max-width: 360px) {
     header .logo h1 {
         font-size: calc(var(--index) * 7);
