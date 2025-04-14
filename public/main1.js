@@ -124,5 +124,16 @@ document.addEventListener('DOMContentLoaded', function () {
 			})
 	}
 })
+
+document.addEventListener('DOMContentLoaded', function () {
+	const burger = document.getElementById('burger')
+	const navUl = document.querySelector('nav ul')
+
+	burger.addEventListener('click', function () {
+		navUl.classList.toggle('active')
+	})
+})
+
+
         
 
