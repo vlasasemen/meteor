@@ -340,6 +340,15 @@ footer {
     .logo {
     flex-shrink: 0; /* Предотвращает сжатие логотипа */
 }
+.burger-menu {
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        padding: 35px; /* Уменьшили отступы */
+        z-index: 1000;
+        margin-right: 10px; /* Сдвигаем влево за счет отступа справа */
+        transform: scale(2); /* Уменьшаем размер */
+    }
 }
 
 @media (max-width: 360px) {
