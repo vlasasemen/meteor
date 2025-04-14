@@ -319,8 +319,13 @@ footer {
 
 @media (max-width: 480px) {
     nav ul {
-        width: 100%;
-        padding: 50px 15px;
+        width: 90%;
+        padding: 20px 10px; /* Уменьшаем padding */
+        box-sizing: border-box; /* Учитываем padding в ширине */
+        overflow-x: hidden; /* Предотвращаем горизонтальное переполнение */
+        right: 0; /* Прижимаем к правому краю */
+        top: 0;
+        height: 100vh; /* Полная высота экрана */
     }
 
     nav ul li a {
@@ -342,20 +347,15 @@ footer {
     }
 
     /* Добавляем стили для бургер-меню */
+    
     .burger-menu {
-        padding: 1px; /* Уменьшаем отступ */
-        margin-right: 5px; /* Меньший отступ справа */
-        transform: scale(1.3); /* Уменьшаем масштаб */
-        position: absolute; /* Фиксируем позицию */
-        right: 5px; /* Ближе к правому краю */
-        top: 50%; /* Центрируем по вертикали */
-        transform: translateY(-50%) scale(1.3); /* Комбинируем центрирование и масштаб */
-    }
-
-    .burger-menu span {
-        width: 18px; /* Меньшая ширина линий */
-        height: 2px; /* Меньшая толщина линий */
-        margin: 3px 0; /* Корректируем расстояние между линиями */
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        padding: 35px; /* Уменьшили отступы */
+        z-index: 1000;
+        margin-right: 10px; /* Сдвигаем влево за счет отступа справа */
+        transform: scale(2); /* Уменьшаем размер */
     }
 }
 @media (max-width: 360px) {
