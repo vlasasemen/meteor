@@ -344,7 +344,7 @@ footer {
         display: flex;
         flex-direction: column;
         cursor: pointer;
-        padding: 35px; /* Уменьшили отступы */
+        padding: 3px; /* Уменьшили отступы */
         z-index: 1000;
         margin-right: 10px; /* Сдвигаем влево за счет отступа справа */
         transform: scale(2); /* Уменьшаем размер */
@@ -353,14 +353,18 @@ footer {
 
 @media (max-width: 360px) {
     header .logo h1 {
-        font-size: calc(var(--index) * 7);
+        font-size: calc(var(--index) * 2);
         min-font-size: 20px;
     }
 
     .burger-menu {
-        padding: 8px;
-        transform: scale(1.2);
-        right: 5px;
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        padding: 3px; /* Уменьшили отступы */
+        z-index: 1000;
+        margin-right: 10px; /* Сдвигаем влево за счет отступа справа */
+        transform: scale(2); /* Уменьшаем размер */
     }
 
     .burger-menu span {
