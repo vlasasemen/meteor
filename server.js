@@ -31,44 +31,46 @@ function rotateLogFile(filePath) {
 }
 
 app.use((req, res, next) => {
-    // Пропускаем статику и API
-    if (req.path.startsWith('/css/') || 
-        req.path.startsWith('/js/') || 
-        req.path.startsWith('/img/') ||
-        req.path.startsWith('/api/') ||
-        req.path.endsWith('.css') || 
-        req.path.endsWith('.js') ||
-        req.path.endsWith('.png') ||
-        req.path.endsWith('.jpg')) {
-        return next();
-    }
+	// Пропускаем статику и API
+	if (
+		req.path.startsWith('/css/') ||
+		req.path.startsWith('/js/') ||
+		req.path.startsWith('/img/') ||
+		req.path.startsWith('/api/') ||
+		req.path.endsWith('.css') ||
+		req.path.endsWith('.js') ||
+		req.path.endsWith('.png') ||
+		req.path.endsWith('.jpg')
+	) {
+		return next()
+	}
 
-    // Логируем только HTML-страницы
-    rotateLogFile(logFilePath);
-    const timestamp = new Date().toISOString();
-    const ip = req.ip;
-    const method = req.method;
-    const url = req.originalUrl.split('?')[0]; // Убираем параметры URL
-    const userAgent = req.get('User-Agent') || 'Unknown';
+	// Логируем только HTML-страницы
+	rotateLogFile(logFilePath)
+	const timestamp = new Date().toISOString()
+	const ip = req.ip
+	const method = req.method
+	const url = req.originalUrl.split('?')[0] // Убираем параметры URL
+	const userAgent = req.get('User-Agent') || 'Unknown'
 
-    let userId = req.cookies.userId;
-    if (!userId) {
-        userId = uuidv4();
-        res.cookie('userId', userId, {
-            maxAge: 365 * 24 * 60 * 60 * 1000, // 1 год
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production', // Для HTTPS
-            sameSite: 'lax'
-        });
-    }
+	let userId = req.cookies.userId
+	if (!userId) {
+		userId = uuidv4()
+		res.cookie('userId', userId, {
+			maxAge: 365 * 24 * 60 * 60 * 1000, // 1 год
+			httpOnly: true,
+			secure: process.env.NODE_ENV === 'production', // Для HTTPS
+			sameSite: 'lax',
+		})
+	}
 
-    const logEntry = `${timestamp} | IP: ${ip} | UserID: ${userId} | Method: ${method} | URL: ${url} | User-Agent: ${userAgent}\n`;
-    fs.appendFile(logFilePath, logEntry, (err) => {
-        if (err) console.error('Ошибка записи в лог:', err);
-    });
+	const logEntry = `${timestamp} | IP: ${ip} | UserID: ${userId} | Method: ${method} | URL: ${url} | User-Agent: ${userAgent}\n`
+	fs.appendFile(logFilePath, logEntry, err => {
+		if (err) console.error('Ошибка записи в лог:', err)
+	})
 
-    next();
-});
+	next()
+})
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -80,8 +82,6 @@ app.use(
 		saveUninitialized: true,
 	})
 )
-
-
 
 const db = new Pool({
 	connectionString:
@@ -100,7 +100,6 @@ db.connect(err => {
 	}
 	console.log('Подключено к базе данных PostgreSQL')
 })
-
 
 app.use(express.static(__dirname + '/public'))
 
@@ -522,12 +521,10 @@ app.post('/checkout', async (req, res) => {
 	}
 
 	if (!Array.isArray(cartItems) || cartItems.length === 0) {
-		return res
-			.status(400)
-			.json({
-				success: false,
-				message: 'Корзина пуста или имеет неверный формат.',
-			})
+		return res.status(400).json({
+			success: false,
+			message: 'Корзина пуста или имеет неверный формат.',
+		})
 	}
 
 	const userId = req.session.user.id
@@ -575,7 +572,11 @@ app.post('/checkout', async (req, res) => {
 			if (err) console.error('Ошибка записи в лог заказов:', err)
 		})
 
-		res.json({ success: true, message: 'Заказ успешно создан.' })
+		res.json({
+			success: true,
+			message: `Заказ успешно создан. Номер заказа: ${orderId}`,
+			orderId: orderId,
+		})
 	} catch (err) {
 		console.error(err)
 		res.status(500).json({ success: false, message: 'Ошибка создания заказа.' })
@@ -585,7 +586,12 @@ app.post('/checkout', async (req, res) => {
 // Получение товара по ID для корзины
 app.get('/api/products/:id', async (req, res) => {
 	const productId = parseInt(req.params.id)
-
+	// Проверяем, является ли productId числом и не NaN
+	if (isNaN(productId) || productId <= 0) {
+		return res
+			.status(400)
+			.json({ success: false, message: 'Некорректный ID товара.' })
+	}
 	try {
 		const result = await db.query(
 			'SELECT id, название, количество FROM товары WHERE id = $1',
@@ -599,7 +605,32 @@ app.get('/api/products/:id', async (req, res) => {
 		res.json(result.rows[0])
 	} catch (err) {
 		console.error(err)
-		res.status(404).json({ success: false, message: 'Товар не найден.' })
+		res.status(500).json({ success: false, message: 'Ошибка сервера.' })
+	}
+})
+
+app.get('/api/chatbot/product/:id', async (req, res) => {
+	const productId = parseInt(req.params.id)
+	// Проверяем, является ли productId числом и не NaN
+	if (isNaN(productId) || productId <= 0) {
+		return res
+			.status(400)
+			.json({ success: false, message: 'Некорректный ID товара.' })
+	}
+	try {
+		const result = await db.query(
+			'SELECT id, название, описание, цена, количество, размер, изображение, пол FROM товары WHERE id = $1 AND is_deleted = FALSE',
+			[productId]
+		)
+		if (result.rows.length === 0) {
+			return res
+				.status(404)
+				.json({ success: false, message: 'Товар не найден.' })
+		}
+		res.json(result.rows[0])
+	} catch (err) {
+		console.error('Ошибка в /api/chatbot/product/:id:', err)
+		res.status(500).json({ success: false, message: 'Ошибка сервера.' })
 	}
 })
 
@@ -797,7 +828,7 @@ app.post('/api/sales-statistics', async (req, res) => {
             SELECT TO_CHAR(o.дата_заказа, 'YYYY-MM') as month, SUM(d.количество * d.цена) as total
             FROM детали_заказа d
             JOIN заказы o ON d.id_заказа = o.id
-            JOIN товары t ON d.id_товара = t.id
+            JOIN товары t ON д.id_товара = т.id
             WHERE 1=1
         `
 		const paramsByCategory = []
@@ -854,31 +885,32 @@ app.post('/api/sales-statistics', async (req, res) => {
 })
 
 app.get('/api/visits-statistics', async (req, res) => {
-    try {
-        const logs = fs.readFileSync(logFilePath, 'utf-8')
-            .split('\n')
-            .filter(line => line.trim());
+	try {
+		const logs = fs
+			.readFileSync(logFilePath, 'utf-8')
+			.split('\n')
+			.filter(line => line.trim())
 
-        const uniqueUsers = new Set();
-        let totalVisits = 0;
+		const uniqueUsers = new Set()
+		let totalVisits = 0
 
-        logs.forEach(log => {
-            const userMatch = log.match(/UserID: (\S+)/);
-            if (userMatch) {
-                uniqueUsers.add(userMatch[1]);
-                totalVisits++;
-            }
-        });
+		logs.forEach(log => {
+			const userMatch = log.match(/UserID: (\S+)/)
+			if (userMatch) {
+				uniqueUsers.add(userMatch[1])
+				totalVisits++
+			}
+		})
 
-        res.json({
-            totalVisits,
-            uniqueVisitors: uniqueUsers.size
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Ошибка чтения логов' });
-    }
-});
+		res.json({
+			totalVisits,
+			uniqueVisitors: uniqueUsers.size,
+		})
+	} catch (err) {
+		console.error(err)
+		res.status(500).json({ error: 'Ошибка чтения логов' })
+	}
+})
 
 app.get('/api/visits-sales-statistics', async (req, res) => {
 	if (!req.session.user || req.session.user.роль !== 'руководитель') {
@@ -891,7 +923,7 @@ app.get('/api/visits-sales-statistics', async (req, res) => {
             SELECT c.название, SUM(d.количество * d.цена) as total
             FROM детали_заказа d
             JOIN заказы o ON d.id_заказа = o.id
-            JOIN товары t ON d.id_товара = t.id
+            JOIN товары t ON д.id_товара = т.id
             JOIN категории c ON t.id_категории = c.id
             GROUP BY c.название
         `)
@@ -952,35 +984,36 @@ app.get('/api/page-visits', async (req, res) => {
 		res.json(result)
 	} catch (err) {
 		console.error(err)
-		res
-			.status(500)
-			.json({
-				success: false,
-				message: 'Ошибка получения статистики посещений страниц',
-			})
+		res.status(500).json({
+			success: false,
+			message: 'Ошибка получения статистики посещений страниц',
+		})
 	}
 })
 // Получение статистики продаж товаров
 app.get('/api/product-sales', async (req, res) => {
-    if (!req.session.user || req.session.user.роль !== 'руководитель') {
-        return res.status(403).json({ success: false, message: 'Доступ запрещен' })
-    }
+	if (!req.session.user || req.session.user.роль !== 'руководитель') {
+		return res.status(403).json({ success: false, message: 'Доступ запрещен' })
+	}
 
-    try {
-        const result = await db.query(`
+	try {
+		const result = await db.query(`
             SELECT id_товара as product_id, SUM(количество) as count 
             FROM детали_заказа 
             GROUP BY id_товара
             ORDER BY count DESC
         `)
-        res.json(result.rows)
-    } catch (err) {
-        console.error(err)
-        res.status(500).json({ success: false, message: 'Ошибка получения статистики продаж товаров' })
-    }
+		res.json(result.rows)
+	} catch (err) {
+		console.error(err)
+		res
+			.status(500)
+			.json({
+				success: false,
+				message: 'Ошибка получения статистики продаж товаров',
+			})
+	}
 })
-
-
 
 app.listen(port, () => {
 	console.log(`Сервер запущен на http://localhost:${port}`)
