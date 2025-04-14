@@ -334,6 +334,29 @@ footer {
     }
 
     header .logo h1 {
-        font-size: calc(var(--index) * 0.9);
+        font-size: calc(var(--index) * 6);
+    }
+
+    .logo {
+    flex-shrink: 0; /* Предотвращает сжатие логотипа */
+}
+}
+
+@media (max-width: 360px) {
+    header .logo h1 {
+        font-size: calc(var(--index) * 7);
+        min-font-size: 20px;
+    }
+
+    .burger-menu {
+        padding: 8px;
+        transform: scale(1.2);
+        right: 5px;
+    }
+
+    .burger-menu span {
+        width: 18px;
+        height: 2px;
+        margin: 2px 0;
     }
 }
