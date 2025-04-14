@@ -280,7 +280,6 @@ body {
 }
 
 /* Мобильные стили */
-/* Мобильные стили */
 @media (max-width: 768px) {
     :root {
         --index: calc(1vw + 1vh + 0.5vmin);
