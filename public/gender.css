@@ -437,8 +437,8 @@ body {
     }
     
     .gender-image {
-        max-width: 70%;
-        max-height: 60%;
+        max-width: 90%;
+        max-height: 80%;
         margin-top: calc(var(--index) * 1);
     }
     
@@ -474,8 +474,8 @@ body {
     }
     
     .gender-image {
-        max-width: 80%;
-        max-height: 50%;
+        max-width: 90%;
+        max-height: 65%;
     }
     
     .half {
@@ -496,5 +496,10 @@ body {
     
     .half {
         padding: 30px 0;
+    }
+
+    .gender-image {
+        max-width: 95%; /* Увеличиваем до 95% для самых маленьких экранов */
+        max-height: 65%; /* Увеличиваем с 50% до 65% */
     }
 }
