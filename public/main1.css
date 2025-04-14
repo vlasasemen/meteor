@@ -207,15 +207,17 @@ footer {
         display: flex;
         flex-direction: column;
         cursor: pointer;
-        padding: 10px;
+        padding: 35px; /* Уменьшили отступы */
         z-index: 1000;
+        margin-right: 10px; /* Сдвигаем влево за счет отступа справа */
+        transform: scale(2); /* Уменьшаем размер */
     }
 
     .burger-menu span {
-        width: 30px;
-        height: 4px;
+        width: 25px; /* Уменьшили ширину */
+        height: 3px; /* Уменьшили высоту */
         background-color: #fffb00;
-        margin: 3px 0;
+        margin: 2.5px 0; /* Уменьшили отступы между линиями */
         transition: all 0.3s ease;
     }
 
@@ -230,13 +232,13 @@ footer {
         top: 0;
         right: 0;
         background: #1a1a1a; /* Changed to dark background for better readability */
-        width: 70%;
+        width: 30%;
         height: 100vh;
         padding: 60px 20px;
         border-radius: 0;
         box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
         z-index: 999;
-        gap: 20px;
+        gap: 0.02px;
         align-items: flex-start;
         overflow-y: auto;
     }
@@ -299,7 +301,7 @@ footer {
     }
 
     header .logo h1 {
-        font-size: calc(var(--index) * 1);
+        font-size: calc(var(--index) * 4);
     }
 
     .video-bg {
