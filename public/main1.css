@@ -343,7 +343,7 @@ footer {
 
     /* Добавляем стили для бургер-меню */
     .burger-menu {
-        padding: 8px; /* Уменьшаем отступ */
+        padding: 1px; /* Уменьшаем отступ */
         margin-right: 5px; /* Меньший отступ справа */
         transform: scale(1.3); /* Уменьшаем масштаб */
         position: absolute; /* Фиксируем позицию */
