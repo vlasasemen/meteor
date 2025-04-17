@@ -164,13 +164,13 @@ app.post('/login', async (req, res) => {
 		req.session.user = user
 
 		switch (user.role) {
-			case 'покупатель':
+			case 'customer':
 				res.redirect('/gender')
 				break
-			case 'руководитель':
+			case 'manager':
 				res.redirect('/pyk')
 				break
-			case 'администратор':
+			case 'administrator':
 				res.redirect('/admin')
 				break
 			default:
@@ -185,23 +185,23 @@ app.post('/login', async (req, res) => {
 
 // Страница выбора пола
 app.get('/gender', (req, res) => {
-	if (!req.session.user || req.session.user.role !== 'покупатель') {
+	if (!req.session.user || req.session.user.role !== 'customer') {
 		return res.redirect('/login')
 	}
 	res.sendFile(__dirname + '/public/gender.html')
 })
 
-// Панель руководителя
+// Панель manager
 app.get('/pyk', (req, res) => {
-	if (!req.session.user || req.session.user.role !== 'руководитель') {
+	if (!req.session.user || req.session.user.role !== 'manager') {
 		return res.redirect('/login')
 	}
 	res.sendFile(__dirname + '/public/pyk.html')
 })
 
-// Панель администратора
+// Панель administrator
 app.get('/admin', (req, res) => {
-	if (!req.session.user || req.session.user.role !== 'администратор') {
+	if (!req.session.user || req.session.user.role !== 'administrator') {
 		return res.redirect('/login')
 	}
 	res.sendFile(__dirname + '/public/admin.html')
@@ -258,7 +258,7 @@ const upload = multer({ storage: storage })
 
 // Страница загрузки отчета
 app.get('/upload-report', (req, res) => {
-	if (!req.session.user || req.session.user.role !== 'администратор') {
+	if (!req.session.user || req.session.user.role !== 'administrator') {
 		return res.redirect('/login')
 	}
 	res.sendFile(__dirname + '/public/upload-report.html')
@@ -289,7 +289,7 @@ app.post('/upload-report', upload.single('report'), async (req, res) => {
 
 // Страница просмотра отчетов
 app.get('/view-reports', async (req, res) => {
-	if (!req.session.user || req.session.user.role !== 'руководитель') {
+	if (!req.session.user || req.session.user.role !== 'manager') {
 		return res.redirect('/login')
 	}
 	try {
@@ -305,7 +305,7 @@ app.get('/view-reports', async (req, res) => {
 app.get('/api/reports', async (req, res) => {
 	if (
 		!req.session.user ||
-		!['руководитель', 'администратор'].includes(req.session.user.role)
+		!['manager', 'administrator'].includes(req.session.user.role)
 	) {
 		return res.redirect('/login')
 	}
@@ -636,7 +636,7 @@ app.get('/api/chatbot/product/:id', async (req, res) => {
 
 // Личный кабинет пользователя
 app.get('/account', async (req, res) => {
-	if (!req.session.user || req.session.user.role !== 'покупатель') {
+	if (!req.session.user || req.session.user.role !== 'customer') {
 		return res.redirect('/login')
 	}
 	res.sendFile(__dirname + '/public/account.html')
@@ -800,7 +800,7 @@ app.post('/logout', (req, res) => {
 })
 
 app.get('/orders', async (req, res) => {
-	if (!req.session.user || req.session.user.role !== 'покупатель') {
+	if (!req.session.user || req.session.user.role !== 'customer') {
 		return res.redirect('/login')
 	}
 	res.sendFile(__dirname + '/public/orders.html')
@@ -808,7 +808,7 @@ app.get('/orders', async (req, res) => {
 
 // Получение статистики продаж
 app.post('/api/sales-statistics', async (req, res) => {
-	if (!req.session.user || req.session.user.role !== 'руководитель') {
+	if (!req.session.user || req.session.user.role !== 'manager') {
 		return res.status(403).json({ success: false, message: 'Доступ запрещен' })
 	}
 
@@ -913,7 +913,7 @@ app.get('/api/visits-statistics', async (req, res) => {
 })
 
 app.get('/api/visits-sales-statistics', async (req, res) => {
-	if (!req.session.user || req.session.user.role !== 'руководитель') {
+	if (!req.session.user || req.session.user.role !== 'manager') {
 		return res.status(403).json({ success: false, message: 'Доступ запрещен' })
 	}
 
@@ -955,7 +955,7 @@ app.get('/api/visits-sales-statistics', async (req, res) => {
 
 // Получение статистики посещений страниц
 app.get('/api/page-visits', async (req, res) => {
-	if (!req.session.user || req.session.user.role !== 'руководитель') {
+	if (!req.session.user || req.session.user.role !== 'manager') {
 		return res.status(403).json({ success: false, message: 'Доступ запрещен' })
 	}
 
@@ -992,7 +992,7 @@ app.get('/api/page-visits', async (req, res) => {
 })
 // Получение статистики продаж товаров
 app.get('/api/product-sales', async (req, res) => {
-	if (!req.session.user || req.session.user.role !== 'руководитель') {
+	if (!req.session.user || req.session.user.role !== 'manager') {
 		return res.status(403).json({ success: false, message: 'Доступ запрещен' })
 	}
 
