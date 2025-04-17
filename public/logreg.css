@@ -36,7 +36,7 @@ body {
 .img {
     background-size: cover;
     background-position: center;
-    color: #fffb00;
+    color: #ff001e;
     text-shadow: 0 0 15px #eca12f;
     display: flex;
     align-items: center;
@@ -49,7 +49,7 @@ body {
 .footer {
     background-size: cover;
     background-position: center;
-    color: #fffb00;
+    color: #ff001e;
     text-shadow: 0 0 15px #eca12f;
     display: flex;
     align-items: center;
@@ -106,7 +106,7 @@ header nav ul li a {
 
 header nav ul li a:hover {
     color: #eca12f;
-    border: 2px solid #fffb00;
+    border: 2px solid #ff001e;
     background-color: #333;
 }
 
@@ -143,7 +143,7 @@ header nav ul li a:hover {
     min-width: calc(var(--index) * 6); 
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
-    border: 2px solid #fffb00;
+    border: 2px solid #ff001e;
 }
 
 .dropdown-content a {
@@ -151,7 +151,7 @@ header nav ul li a:hover {
     padding: calc(var(--index) * 0.75) calc(var(--index) * 1.5);
     text-decoration: none;
     display: block;
-    border-bottom: 1px solid #fffb00;
+    border-bottom: 1px solid #ff001e;
     background-color: transparent;
 }
 
@@ -176,7 +176,7 @@ header nav ul li a:hover {
 h1, h2 {
     text-align: center;
     font-size: 2rem;
-    color: #fffb00;
+    color: #ff001e;
     text-shadow: 0 0 15px #eca12f;
 }
 
@@ -201,7 +201,7 @@ form input, form select, form button {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
-    border: 2px solid #fffb00;
+    border: 2px solid #ff001e;
     border-radius: 5px;
     background-color: #333;
     color: #fff;
@@ -217,7 +217,7 @@ form input:focus, form select:focus {
 
 /* Кнопка формы */
 form button {
-    background-color: #fffb00;
+    background-color: #ff001e;
     color: #010101;
     font-weight: bold;
     cursor: pointer;
@@ -232,7 +232,7 @@ form button:hover {
 .gender-line {
     width: 80%;
     height: 2px;
-    background-color: #fffb00; /* Желтая линия */
+    background-color: #ff001e; /* Желтая линия */
     margin: 20px auto;
     border-radius: 5px;
 }
@@ -240,7 +240,7 @@ form button:hover {
 /* Стили для ссылки */
 a {
     text-decoration: none;
-    color: #fffb00;
+    color: #ff001e;
     display: block;
     text-align: center;
     margin-top: 15px;

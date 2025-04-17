@@ -1,6 +1,6 @@
 /* Базовые стили */
 :root {
-    --primary-color: #fffb00;
+    --primary-color: #dc3545;
     --primary-hover: #eca12f;
     --dark-bg: #333;
     --light-bg: #f5f5f5;
@@ -34,7 +34,7 @@ body, html {
 
 /* Шапка */
 .header {
-    background: url('img/LV4.2.jpg') center/cover no-repeat;
+    background: url('img/ked5.jpg') center/cover no-repeat;
     color: var(--primary-color);
     text-shadow: 0 0 15px var(--primary-hover);
     padding: 20px 0;
@@ -242,7 +242,7 @@ h2 {
 
 /* Футер */
 .footer {
-    background: url('img/LV4.2.jpg') center/cover no-repeat;
+    background: url('img/ked5.jpg') center/cover no-repeat;
     color: var(--primary-color);
     text-align: center;
     padding: 20px 0;

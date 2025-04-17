@@ -3,98 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Бейсболки</title>
+    <title>Кепки</title>
     <link rel="stylesheet" href="shop.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
-    <header>
-        <div class="nav container">
-            <a href="index1.html" class="logo">LVShop</a>
-            <div class="notification" id="notification">
-                Товар добавлен в корзину!
-            </div>
-            <div class="cart-icon" id="cart-icon">
-                <img src="img/bag.png" alt="VK">
-                <span class="cart-count" id="cart-count">0</span>
-            </div>
-            <div class="cart">
-                <h2 class="cart-title">Корзина</h2>
-                <div class="cart-content">
-                </div>
-                <div class="total">
-                    <div class="total-title">Итог</div>
-                    <div class="total-price">₽0</div>
-                </div>
-                <button type="button" class="btn-buy" onclick="placeOrder()">Оформить заказ</button>
-                <i class='bx bxs-x-circle' id="close-cart"></i>
-            </div>
+<header>
+    <div class="nav container">
+        <a href="index1.html" class="logo">MeteorShop</a>
+        <div class="notification" id="notification">
+            Товар добавлен в корзину!
         </div>
-    </header>
+        <div class="cart-icon" id="cart-icon">
+            <img src="img/bag.png" alt="VK">
+            <span class="cart-count" id="cart-count">0</span>
+        </div>
+        <div class="cart">
+            <h2 class="cart-title">Корзина</h2>
+            <div class="cart-content">
+            </div>
+            <div class="total">
+                <div class="total-title">Итог</div>
+                <div class="total-price">₽0</div>
+            </div>
+            <button type="button" class="btn-buy" onclick="placeOrder()">Оформить заказ</button>
+            <i class='bx bxs-x-circle' id="close-cart"></i>
+        </div>
+    </div>
+</header>
 
-    <section class="shop container">
-        <h2 class="section-title">Бейсболки</h2>
-        
-        <!-- Добавляем блок фильтров и сортировки -->
-        <div class="filters-container">
-            <div class="search-box">
-                <input type="text" id="search-input" placeholder="Поиск товаров...">
-                <i class='bx bx-search'></i>
-            </div>
-            
-            <div class="filter-group">
-                <label for="sort-select">Сортировка:</label>
-                <select id="sort-select">
-                    <option value="default">По умолчанию</option>
-                    <option value="price-asc">Цена по возрастанию</option>
-                    <option value="price-desc">Цена по убыванию</option>
-                    <option value="name-asc">Название (А-Я)</option>
-                    <option value="name-desc">Название (Я-А)</option>
-                </select>
-            </div>
-            
-            <div class="filter-group">
-                <label for="size-filter">Размер:</label>
-                <select id="size-filter">
-                    <option value="all">Все размеры</option>
-                    <option value="S">S</option>
-                    <option value="M">M</option>
-                    <option value="L">L</option>
-                </select>
-            </div>
-            
-            <div class="filter-group">
-                <label for="price-range">Цена:</label>
-                <input type="range" id="price-range" min="0" max="5000000" step="10000" value="5000000">
-                <span id="price-value">До ₽5,000,000</span>
-            </div>
-        </div>
-        
-        <div class="shop-content" id="shop-content">
-            <!-- Товары будут загружаться сюда -->
-        </div>
-    </section>
+<section class="shop container">
+    <h2 class="section-title">Кроссовки</h2>
 
-    <!-- Модальное окно -->
-    <div id="product-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <img id="modal-product-img" class="modal-img" src="" alt="Product Image">
-            <h2 id="modal-product-title"></h2>
-            <p id="modal-product-description"></p>
-            <span id="modal-product-price"></span>
-            <div>
-                <label for="size">Выберите размер:</label>
-                <select id="size">
-                    <option value="S">S</option>
-                    <option value="M">M</option>
-                    <option value="L">L</option>
-                </select>
-            </div>
-            <button id="add-to-cart-modal">Добавить в корзину</button>
+    <!-- Добавляем блок фильтров и сортировки -->
+    <div class="filters-container">
+        <div class="search-box">
+            <input type="text" id="search-input" placeholder="Поиск товаров...">
+            <i class='bx bx-search'></i>
+        </div>
+
+        <div class="filter-group">
+            <label for="sort-select">Сортировка:</label>
+            <select id="sort-select">
+                <option value="default">По умолчанию</option>
+                <option value="price-asc">Цена по возрастанию</option>
+                <option value="price-desc">Цена по убыванию</option>
+                <option value="name-asc">Название (А-Я)</option>
+                <option value="name-desc">Название (Я-А)</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="size-filter">Размер:</label>
+            <select id="size-filter">
+                <option value="all">Все размеры</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="price-range">Цена:</label>
+            <input type="range" id="price-range" min="0" max="5000000" step="10000" value="5000000">
+            <span id="price-value">До ₽5,000,000</span>
         </div>
     </div>
 
-    <script src="shop.js"></script>
+    <div class="shop-content" id="shop-content">
+        <!-- Товары будут загружаться сюда -->
+    </div>
+</section>
+
+<!-- Модальное окно -->
+<div id="product-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <img id="modal-product-img" class="modal-img" src="" alt="Product Image">
+        <h2 id="modal-product-title"></h2>
+        <p id="modal-product-description"></p>
+        <span id="modal-product-price"></span>
+        <div>
+            <label for="size">Выберите размер:</label>
+            <select id="size">
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+            </select>
+        </div>
+        <button id="add-to-cart-modal">Добавить в корзину</button>
+    </div>
+</div>
+
+<script src="shop.js"></script>
 </body>
 </html>

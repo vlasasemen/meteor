@@ -86,7 +86,7 @@ app.use(
 const db = new Pool({
 	connectionString:
 		process.env.DATABASE_URL ||
-		'postgresql://postgres:1111@localhost:5432/интернет_магазин',
+		'postgresql://postgres:1111@localhost:5432/2интернет_магазин',
 	ssl:
 		process.env.NODE_ENV === 'production'
 			? { rejectUnauthorized: false }

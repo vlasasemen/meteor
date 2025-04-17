@@ -9,3 +9,5 @@
 2025-04-14T18:45:37.957Z | OrderID: 20 | UserID: 5 | SessionID: cec9dd26-fef3-41d5-807e-91f3e30ac2d5 | Total: 500000 | Items: [{"id":1,"price":"500000.00","quantity":1,"size":"m"}]
 2025-04-14T18:47:50.522Z | OrderID: 21 | UserID: 5 | SessionID: cec9dd26-fef3-41d5-807e-91f3e30ac2d5 | Total: 500000 | Items: [{"id":2,"price":"500000.00","quantity":1,"size":"m"}]
 2025-04-14T18:54:44.480Z | OrderID: 22 | UserID: 5 | SessionID: cec9dd26-fef3-41d5-807e-91f3e30ac2d5 | Total: 500000 | Items: [{"id":2,"price":"500000.00","quantity":1,"size":"m"}]
+2025-04-15T21:24:58.928Z | OrderID: 4 | UserID: 4 | SessionID: 3a1a2d81-a783-4e0b-b9e0-a85ffcfa588f | Total: 150000 | Items: [{"id":4,"price":"150000.00","quantity":1,"size":"m"}]
+2025-04-15T21:26:34.593Z | OrderID: 5 | UserID: 4 | SessionID: 3a1a2d81-a783-4e0b-b9e0-a85ffcfa588f | Total: 1000000 | Items: [{"id":"3","title":"КРОССОВКИ GOLDEN GOOSE","price":100000,"quantity":10,"size":"L"}]

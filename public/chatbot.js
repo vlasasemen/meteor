@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
 	// Словарь синонимов для поиска
 	const synonyms = {
-		бейсболка: ['бейсболка', 'кепка', 'бейсболки', 'кепки'],
-		футболка: ['футболка', 'футболки', 'т-шорт', 'т-шорты'],
+		кроссовки: ['кроссовки, кеды, бутсы, туфли'],
+		кеды: ['футболка', 'футболки', 'т-шорт', 'т-шорты'],
 	}
 
 	// Элементы чат-бота
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	chatBotContainer.className = 'chatbot-container'
 	chatBotContainer.innerHTML = `
         <div class="chatbot-header">
-            <h3>LVShop Assistant</h3>
+            <h3>MeteorShop Assistant</h3>
             <i class="bx bxs-x-circle chatbot-close"></i>
         </div>
         <div class="chatbot-messages" id="chatbot-messages"></div>
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	const popupMessage = document.createElement('div')
 	popupMessage.className = 'chatbot-popup'
 	popupMessage.innerHTML = `
-        <p>Добро пожаловать в LVShop! Я ваш помощник. Нажмите, чтобы начать! 😊</p>
+        <p>Добро пожаловать в MeteorShop! Я ваш помощник. Нажмите, чтобы начать! 😊</p>
     `
 	document.body.appendChild(popupMessage)
 
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			currentState === 'greeting'
 		) {
 			displayMessage(
-				'Здравствуйте! Я ваш помощник по магазину LVShop. Чем могу помочь? 😊',
+				'Здравствуйте! Я ваш помощник по магазину MeteorShop. Чем могу помочь? 😊',
 				'bot'
 			)
 			displayOptions([

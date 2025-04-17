@@ -66,7 +66,7 @@ body {
     will-change: transform;
     text-transform: uppercase;
     font-weight: 900;
-    color: #fffb00;
+    color: #fd4646;
     text-shadow: 0 0 15px #eca12f;
 }
 .layers__title {
@@ -81,7 +81,7 @@ body {
     min-height: 100vh;
     background-size: cover;
     background-color: center;
-    color: #fffb00;
+    color: #fd4646;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -112,7 +112,7 @@ body {
     transition: var(--transition);
     will-change: transform;
     text-align: justify;
-    color: #fffb00;
+    color: #fd4646;
     text-shadow: 0 0 10px #eca12f;
     padding: calc(var(--index) * 0.5);
     background-color: rgba(255, 255, 255, 0.582);
@@ -122,7 +122,7 @@ body {
     margin-top: calc(var(--index) * -1);
     margin-bottom: calc(var(--index) * 2);
     padding: calc(var(--index) / 2) calc(var(--index) * 2);
-    background-color: #fffb00;
+    background-color: #fd4646;
     color: #010101;
     border: none;
     border-radius: calc(var(--index) / 4);
@@ -200,8 +200,8 @@ body {
 .arrow {
     width: calc(var(--index) * 1.5);
     height: calc(var(--index) * 1.5);
-    border-left: 2px solid #ebec7f;
-    border-bottom: 2px solid #ebec7f;
+    border-left: 2px solid #fd4646;
+    border-bottom: 2px solid #fd4646;
     transform: rotate(0deg);
     animation: bounce 1.5s infinite;
 }
@@ -220,7 +220,7 @@ body {
     height: 100vh;
     width: 100%;
     flex-direction: row;
-    background-image: url('img/LV4.2.jpg');
+    background-image: url('img/ked5.jpg');
     background-size: cover;
     background-position: center;
 }
@@ -248,7 +248,7 @@ body {
 .gender-text {
     margin-top: calc(var(--index) * 0.5);
     font-size: calc(var(--index) * 1.2);
-    color: #fffb00;
+    color: #fd4646;
     text-align: center;
     text-shadow: 0 0 10px #eca12f;
     font-weight: bold;
@@ -258,7 +258,7 @@ body {
     text-align: center;
     font-size: calc(var(--index) * 2);
     margin: calc(var(--index) * -3) 0;
-    color: #fffb00;
+    color: #fd4646;
     text-shadow: 0 0 15px #eca12f;
     font-weight: bold;
     position: absolute;

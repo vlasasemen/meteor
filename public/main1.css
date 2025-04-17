@@ -45,7 +45,7 @@ header {
 
 header .logo h1 {
     margin: 0;
-    color: #fffb00;
+    color: #dc3545;
     text-shadow: 0 0 15px #eca12f;
     font-size: calc(var(--index) * 1.2);
 }
@@ -76,7 +76,7 @@ nav ul li {
 }
 
 nav ul li a {
-    color: rgb(255, 230, 0);
+    color: rgb(255, 0, 21);
     text-decoration: none;
     padding: 10px 20px;
     border: 2px solid transparent;
@@ -92,8 +92,8 @@ nav ul li a {
 
 nav ul li a:hover {
     color: #fff;
-    border: 2px solid #fffb00;
-    background: linear-gradient(45deg, #eca12f, #fffb00);
+    border: 2px solid #ff0026;
+    background: linear-gradient(45deg, #35ec2f, #dc3545);
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(236, 161, 47, 0.5);
 }
@@ -107,7 +107,7 @@ nav ul li a:hover {
     min-width: 200px;
     box-shadow: 0px 8px 16px rgba(0,0,0,0.3);
     z-index: 1000;
-    border: 2px solid #fffb00;
+    border: 2px solid #dc3545;
     border-radius: 15px;
     padding: 10px 0;
     transform: translateY(10px);
@@ -126,12 +126,12 @@ nav ul li a:hover {
     padding: 12px 20px;
     border-bottom: 1px solid rgba(255, 251, 0, 0.2);
     white-space: nowrap;
-    color: #fffb00;
+    color: #dc3545;
     transition: all 0.3s ease;
 }
 
 .dropdown-content a:hover {
-    background: linear-gradient(45deg, #eca12f, #fffb00);
+    background: linear-gradient(45deg, #eca12f, #dc3545);
     color: #fff;
     border-radius: 0 15px 15px 0;
 }
@@ -187,8 +187,8 @@ footer {
     background-image: url(img/LV4.2.jpg);
     background-size: cover;
     background-position: center;
-    color: #fffb00;
-    text-shadow: 0 0 15px #eca12f;
+    color: #dc3545;
+    text-shadow: 0 0 15px #48ec2f;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -216,7 +216,7 @@ footer {
     .burger-menu span {
         width: 25px; /* Уменьшили ширину */
         height: 3px; /* Уменьшили высоту */
-        background-color: #fffb00;
+        background-color: #dc3545;
         margin: 2.5px 0; /* Уменьшили отступы между линиями */
         transition: all 0.3s ease;
     }

@@ -42,7 +42,7 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    background: url(img/LV4.2.jpg);
+    background: url(img/ked5.jpg);
     box-shadow: 0 1px 4px hsl(0 4% 15% / 10%);
     z-index: 1000;
     background-size: cover;
@@ -57,7 +57,7 @@ header {
 .logo {
     font-size: calc(var(--index) * 1) ;
     font-weight: 400;
-    color: #fffb00;
+    color: #dc3545;
     text-shadow: 0 0 15px #eca12f;
     font-weight: bold;
 }
