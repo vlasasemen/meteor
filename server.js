@@ -84,9 +84,10 @@ app.use(
 )
 
 const db = new Pool({
-	connectionString:
-		process.env.DATABASE_URL ||
-		'postgres://koyeb-adm:npg_B8cmP7CNUZMf@ep-floral-leaf-a2w25g10.eu-central-1.pg.koyeb.app/koyebdb',
+	connectionString: (process.env.DATABASE_URL?.includes('?')
+			? process.env.DATABASE_URL + '&sslmode=require'
+			: process.env.DATABASE_URL + '?sslmode=require')
+		|| 'postgresql://postgres:1@localhost:5432/internet',
 	ssl: {
 		rejectUnauthorized: false,
 	},
