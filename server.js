@@ -10,7 +10,7 @@ const { v4: uuidv4 } = require('uuid')
 const cookieParser = require('cookie-parser')
 
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 
 const logFilePath = 'logs/visits.log'
 const orderLogFilePath = 'logs/orders.log'
