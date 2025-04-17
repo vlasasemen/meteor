@@ -86,11 +86,10 @@ app.use(
 const db = new Pool({
 	connectionString:
 		process.env.DATABASE_URL ||
-		'postgresql://postgres:1@localhost:5432/internet',
-	ssl:
-		process.env.NODE_ENV === 'production'
-			? { rejectUnauthorized: false }
-			: false,
+		'postgres://koyeb-adm:npg_B8cmP7CNUZMf@ep-floral-leaf-a2w25g10.eu-central-1.pg.koyeb.app/koyebdb',
+	ssl: {
+		rejectUnauthorized: false,
+	},
 })
 
 db.connect(err => {
