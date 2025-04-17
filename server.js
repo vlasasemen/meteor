@@ -118,7 +118,7 @@ app.post('/register', async (req, res) => {
 
 	try {
 		const result = await db.query(
-			'SELECT * FROM пользователи WHERE email = $1',
+			'SELECT * FROM users WHERE email = $1',
 			[email]
 		)
 		if (result.rows.length > 0) {
@@ -128,7 +128,7 @@ app.post('/register', async (req, res) => {
 		}
 
 		await db.query(
-			'INSERT INTO пользователи (имя, фамилия, email, пароль) VALUES ($1, $2, $3, $4)',
+			'INSERT INTO users (first_name, last_name, email, password) VALUES ($1, $2, $3, $4)',
 			[name, surname, email, password]
 		)
 		res.redirect('/register?message=Успешная регистрация!&success=true')
@@ -149,7 +149,7 @@ app.post('/login', async (req, res) => {
 
 	try {
 		const result = await db.query(
-			'SELECT * FROM пользователи WHERE email = $1',
+			'SELECT * FROM users WHERE email = $1',
 			[email]
 		)
 		if (result.rows.length === 0) {
@@ -157,13 +157,13 @@ app.post('/login', async (req, res) => {
 		}
 
 		const user = result.rows[0]
-		if (user.пароль !== password) {
+		if (user.password !== password) {
 			return res.redirect('/login?message=Неверный пароль&error=true')
 		}
 
 		req.session.user = user
 
-		switch (user.роль) {
+		switch (user.role) {
 			case 'покупатель':
 				res.redirect('/gender')
 				break
@@ -185,7 +185,7 @@ app.post('/login', async (req, res) => {
 
 // Страница выбора пола
 app.get('/gender', (req, res) => {
-	if (!req.session.user || req.session.user.роль !== 'покупатель') {
+	if (!req.session.user || req.session.user.role !== 'покупатель') {
 		return res.redirect('/login')
 	}
 	res.sendFile(__dirname + '/public/gender.html')
@@ -193,7 +193,7 @@ app.get('/gender', (req, res) => {
 
 // Панель руководителя
 app.get('/pyk', (req, res) => {
-	if (!req.session.user || req.session.user.роль !== 'руководитель') {
+	if (!req.session.user || req.session.user.role !== 'руководитель') {
 		return res.redirect('/login')
 	}
 	res.sendFile(__dirname + '/public/pyk.html')
@@ -201,7 +201,7 @@ app.get('/pyk', (req, res) => {
 
 // Панель администратора
 app.get('/admin', (req, res) => {
-	if (!req.session.user || req.session.user.роль !== 'администратор') {
+	if (!req.session.user || req.session.user.role !== 'администратор') {
 		return res.redirect('/login')
 	}
 	res.sendFile(__dirname + '/public/admin.html')
@@ -211,7 +211,7 @@ app.get('/admin', (req, res) => {
 app.get('/customers', async (req, res) => {
 	try {
 		const result = await db.query(
-			'SELECT id, имя, фамилия, email, роль FROM пользователи'
+			'SELECT id, first_name, last_name, email, role FROM users'
 		)
 		res.json(result.rows)
 	} catch (err) {
@@ -227,7 +227,7 @@ app.delete('/customers/:id', async (req, res) => {
 	const customerId = req.params.id
 
 	try {
-		const result = await db.query('DELETE FROM пользователи WHERE id = $1', [
+		const result = await db.query('DELETE FROM users WHERE id = $1', [
 			customerId,
 		])
 		if (result.rowCount > 0) {
@@ -258,7 +258,7 @@ const upload = multer({ storage: storage })
 
 // Страница загрузки отчета
 app.get('/upload-report', (req, res) => {
-	if (!req.session.user || req.session.user.роль !== 'администратор') {
+	if (!req.session.user || req.session.user.role !== 'администратор') {
 		return res.redirect('/login')
 	}
 	res.sendFile(__dirname + '/public/upload-report.html')
@@ -277,7 +277,7 @@ app.post('/upload-report', upload.single('report'), async (req, res) => {
 
 	try {
 		await db.query(
-			'INSERT INTO отчёты (название, файл, создан_пользователем) VALUES ($1, $2, $3)',
+			'INSERT INTO reports (name, file, created_by) VALUES ($1, $2, $3)',
 			[encodedFileName, filePath, userId]
 		)
 		res.redirect('/upload-report?message=Отчет успешно загружен&success=true')
@@ -289,11 +289,11 @@ app.post('/upload-report', upload.single('report'), async (req, res) => {
 
 // Страница просмотра отчетов
 app.get('/view-reports', async (req, res) => {
-	if (!req.session.user || req.session.user.роль !== 'руководитель') {
+	if (!req.session.user || req.session.user.role !== 'руководитель') {
 		return res.redirect('/login')
 	}
 	try {
-		await db.query('SELECT * FROM отчёты')
+		await db.query('SELECT * FROM reports')
 		res.sendFile(__dirname + '/public/view-reports.html')
 	} catch (err) {
 		console.error(err)
@@ -305,13 +305,13 @@ app.get('/view-reports', async (req, res) => {
 app.get('/api/reports', async (req, res) => {
 	if (
 		!req.session.user ||
-		!['руководитель', 'администратор'].includes(req.session.user.роль)
+		!['руководитель', 'администратор'].includes(req.session.user.role)
 	) {
 		return res.redirect('/login')
 	}
 
 	try {
-		const result = await db.query('SELECT * FROM отчёты')
+		const result = await db.query('SELECT * FROM reports')
 		res.json(result.rows)
 	} catch (err) {
 		console.error(err)
@@ -326,7 +326,7 @@ app.get('/download-report/:id', async (req, res) => {
 	const reportId = req.params.id
 
 	try {
-		const result = await db.query('SELECT * FROM отчёты WHERE id = $1', [
+		const result = await db.query('SELECT * FROM reports WHERE id = $1', [
 			reportId,
 		])
 		if (result.rows.length === 0) {
@@ -334,7 +334,7 @@ app.get('/download-report/:id', async (req, res) => {
 		}
 
 		const report = result.rows[0]
-		const decodedFileName = iconv.decode(Buffer.from(report.файл), 'utf-8')
+		const decodedFileName = iconv.decode(Buffer.from(report.file), 'utf-8')
 		res.download(decodedFileName)
 	} catch (err) {
 		console.error(err)
@@ -347,7 +347,7 @@ app.post('/update-report-status', async (req, res) => {
 	const { reportId, status } = req.body
 
 	try {
-		await db.query('UPDATE отчёты SET статус = $1 WHERE id = $2', [
+		await db.query('UPDATE reports SET status = $1 WHERE id = $2', [
 			status,
 			reportId,
 		])
@@ -364,7 +364,7 @@ app.delete('/api/reports/:id', async (req, res) => {
 
 	try {
 		const statusResult = await db.query(
-			'SELECT статус FROM отчёты WHERE id = $1',
+			'SELECT status FROM reports WHERE id = $1',
 			[reportId]
 		)
 		if (statusResult.rows.length === 0) {
@@ -373,14 +373,14 @@ app.delete('/api/reports/:id', async (req, res) => {
 				.json({ success: false, message: 'Отчет не найден.' })
 		}
 
-		const reportStatus = statusResult.rows[0].статус
+		const reportStatus = statusResult.rows[0].status
 		if (reportStatus === 'Принято') {
 			return res
 				.status(403)
 				.json({ success: false, message: 'Нельзя удалить принятый отчет.' })
 		}
 
-		const result = await db.query('DELETE FROM отчёты WHERE id = $1', [
+		const result = await db.query('DELETE FROM reports WHERE id = $1', [
 			reportId,
 		])
 		if (result.rowCount > 0) {
@@ -398,7 +398,7 @@ app.delete('/api/reports/:id', async (req, res) => {
 app.get('/api/products', async (req, res) => {
 	try {
 		const result = await db.query(
-			'SELECT * FROM товары WHERE is_deleted = FALSE'
+			'SELECT * FROM products WHERE is_deleted = FALSE'
 		)
 		res.json(result.rows)
 	} catch (err) {
@@ -412,7 +412,7 @@ app.get('/api/products', async (req, res) => {
 // Получение категорий
 app.get('/categories', async (req, res) => {
 	try {
-		const result = await db.query('SELECT * FROM категории')
+		const result = await db.query('SELECT * FROM categories')
 		res.json(result.rows)
 	} catch (err) {
 		console.error(err)
@@ -426,7 +426,7 @@ app.post('/products', async (req, res) => {
 
 	try {
 		const result = await db.query(
-			'SELECT * FROM товары WHERE id_категории = $1 AND пол = $2 AND is_deleted = FALSE',
+			'SELECT * FROM products WHERE category_id = $1 AND пол = $2 AND is_deleted = FALSE',
 			[category, gender]
 		)
 		res.json(result.rows)
@@ -452,7 +452,7 @@ app.post('/edit-product', async (req, res) => {
 
 	try {
 		await db.query(
-			'UPDATE товары SET название = $1, описание = $2, цена = $3, количество = $4, размер = $5, изображение = $6, id_категории = $7, пол = $8 WHERE id = $9',
+			'UPDATE products SET name = $1, description = $2, price = $3, quantity = $4, size = $5, image = $6, category_id = $7, gender = $8 WHERE id = $9',
 			[name, description, price, quantity, size, image, category, gender, id]
 		)
 		res.json({ message: 'Товар успешно обновлен' })
@@ -469,7 +469,7 @@ app.post('/add-product', async (req, res) => {
 
 	try {
 		await db.query(
-			'INSERT INTO товары (название, описание, цена, количество, размер, изображение, id_категории, пол) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
+			'INSERT INTO products (name, description, price, quantity, size, image, category_id, gender) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
 			[name, description, price, quantity, size, image, category, gender]
 		)
 		res.json({ message: 'Товар успешно добавлен' })
@@ -484,7 +484,7 @@ app.post('/delete-product', async (req, res) => {
 	const { id } = req.body
 
 	try {
-		await db.query('UPDATE товары SET is_deleted = TRUE WHERE id = $1', [id])
+		await db.query('UPDATE products SET is_deleted = TRUE WHERE id = $1', [id])
 		res.json({ message: 'Товар успешно удалён' })
 	} catch (err) {
 		console.error(err)
@@ -497,7 +497,7 @@ app.get('/products/:id', async (req, res) => {
 	const productId = req.params.id
 
 	try {
-		const result = await db.query('SELECT * FROM товары WHERE id = $1', [
+		const result = await db.query('SELECT * FROM products WHERE id = $1', [
 			productId,
 		])
 		if (result.rows.length === 0) {
@@ -542,7 +542,7 @@ app.post('/checkout', async (req, res) => {
 
 	try {
 		const orderResult = await db.query(
-			'INSERT INTO заказы (id_пользователя, сумма, адрес_доставки, способ_доставки, session_id) VALUES ($1, $2, $3, $4, $5) RETURNING id',
+			'INSERT INTO orders (user_id, total_amount, delivery_address, delivery_method, session_id) VALUES ($1, $2, $3, $4, $5) RETURNING id',
 			[userId, totalAmount, address, deliveryMethod, sessionId]
 		)
 		const orderId = orderResult.rows[0].id
@@ -554,7 +554,7 @@ app.post('/checkout', async (req, res) => {
 			item.price,
 		])
 		await db.query(
-			'INSERT INTO детали_заказа (id_заказа, id_товара, количество, цена) VALUES ' +
+			'INSERT INTO order_details (order_id, product_id, quantity, price) VALUES ' +
 				orderDetails
 					.map(
 						(_, i) =>
@@ -594,7 +594,7 @@ app.get('/api/products/:id', async (req, res) => {
 	}
 	try {
 		const result = await db.query(
-			'SELECT id, название, количество FROM товары WHERE id = $1',
+			'SELECT id, name, quantity FROM products WHERE id = $1',
 			[productId]
 		)
 		if (result.rows.length === 0) {
@@ -619,7 +619,7 @@ app.get('/api/chatbot/product/:id', async (req, res) => {
 	}
 	try {
 		const result = await db.query(
-			'SELECT id, название, описание, цена, количество, размер, изображение, пол FROM товары WHERE id = $1 AND is_deleted = FALSE',
+			'SELECT id, name, description, price, quantity, size, image, gender FROM products WHERE id = $1 AND is_deleted = FALSE',
 			[productId]
 		)
 		if (result.rows.length === 0) {
@@ -636,7 +636,7 @@ app.get('/api/chatbot/product/:id', async (req, res) => {
 
 // Личный кабинет пользователя
 app.get('/account', async (req, res) => {
-	if (!req.session.user || req.session.user.роль !== 'покупатель') {
+	if (!req.session.user || req.session.user.role !== 'покупатель') {
 		return res.redirect('/login')
 	}
 	res.sendFile(__dirname + '/public/account.html')
@@ -650,7 +650,7 @@ app.get('/api/user-info', async (req, res) => {
 
 	try {
 		const result = await db.query(
-			'SELECT id, имя, фамилия, email, телефон, дата_регистрации FROM пользователи WHERE id = $1',
+			'SELECT id, first_name, last_name, email, phone, registration_date FROM users WHERE id = $1',
 			[req.session.user.id]
 		)
 		if (result.rows.length === 0) {
@@ -716,7 +716,7 @@ app.post('/api/update-user', async (req, res) => {
 
 	try {
 		const emailCheck = await db.query(
-			'SELECT id FROM пользователи WHERE email = $1 AND id != $2',
+			'SELECT id FROM users WHERE email = $1 AND id != $2',
 			[email, req.session.user.id]
 		)
 
@@ -728,7 +728,7 @@ app.post('/api/update-user', async (req, res) => {
 		}
 
 		await db.query(
-			'UPDATE пользователи SET имя = $1, фамилия = $2, email = $3, телефон = $4 WHERE id = $5',
+			'UPDATE users SET first_name = $1, last_name = $2, email = $3, phone = $4 WHERE id = $5',
 			[name, surname, email, phone, req.session.user.id]
 		)
 
@@ -740,10 +740,10 @@ app.post('/api/update-user', async (req, res) => {
 		res.json({
 			success: true,
 			message: 'Данные успешно обновлены',
-			имя: name,
-			фамилия: surname,
+			first_name: name,
+			last_name: surname,
 			email,
-			телефон: phone,
+			phone: phone,
 		})
 	} catch (err) {
 		console.error(err)
@@ -764,7 +764,7 @@ app.post('/api/change-password', async (req, res) => {
 	try {
 		// Проверяем текущий пароль
 		const userCheck = await db.query(
-			'SELECT id FROM пользователи WHERE id = $1 AND пароль = $2',
+			'SELECT id FROM users WHERE id = $1 AND password = $2',
 			[req.session.user.id, currentPassword]
 		)
 
@@ -776,7 +776,7 @@ app.post('/api/change-password', async (req, res) => {
 		}
 
 		// Обновляем пароль
-		await db.query('UPDATE пользователи SET пароль = $1 WHERE id = $2', [
+		await db.query('UPDATE users SET password = $1 WHERE id = $2', [
 			newPassword,
 			req.session.user.id,
 		])
@@ -800,7 +800,7 @@ app.post('/logout', (req, res) => {
 })
 
 app.get('/orders', async (req, res) => {
-	if (!req.session.user || req.session.user.роль !== 'покупатель') {
+	if (!req.session.user || req.session.user.role !== 'покупатель') {
 		return res.redirect('/login')
 	}
 	res.sendFile(__dirname + '/public/orders.html')
@@ -808,7 +808,7 @@ app.get('/orders', async (req, res) => {
 
 // Получение статистики продаж
 app.post('/api/sales-statistics', async (req, res) => {
-	if (!req.session.user || req.session.user.роль !== 'руководитель') {
+	if (!req.session.user || req.session.user.role !== 'руководитель') {
 		return res.status(403).json({ success: false, message: 'Доступ запрещен' })
 	}
 
@@ -913,7 +913,7 @@ app.get('/api/visits-statistics', async (req, res) => {
 })
 
 app.get('/api/visits-sales-statistics', async (req, res) => {
-	if (!req.session.user || req.session.user.роль !== 'руководитель') {
+	if (!req.session.user || req.session.user.role !== 'руководитель') {
 		return res.status(403).json({ success: false, message: 'Доступ запрещен' })
 	}
 
@@ -930,13 +930,13 @@ app.get('/api/visits-sales-statistics', async (req, res) => {
 
 		// Общее количество заказов
 		const totalOrdersResult = await db.query(
-			'SELECT COUNT(*) as count FROM заказы'
+			'SELECT COUNT(*) as count FROM orders'
 		)
 		const totalOrders = totalOrdersResult.rows[0].count
 
 		// Общая сумма продаж
 		const totalSalesResult = await db.query(
-			'SELECT SUM(сумма) as total FROM заказы'
+			'SELECT SUM(сумма) as total FROM orders'
 		)
 		const totalSales = parseFloat(totalSalesResult.rows[0].total) || 0
 
@@ -955,7 +955,7 @@ app.get('/api/visits-sales-statistics', async (req, res) => {
 
 // Получение статистики посещений страниц
 app.get('/api/page-visits', async (req, res) => {
-	if (!req.session.user || req.session.user.роль !== 'руководитель') {
+	if (!req.session.user || req.session.user.role !== 'руководитель') {
 		return res.status(403).json({ success: false, message: 'Доступ запрещен' })
 	}
 
@@ -992,7 +992,7 @@ app.get('/api/page-visits', async (req, res) => {
 })
 // Получение статистики продаж товаров
 app.get('/api/product-sales', async (req, res) => {
-	if (!req.session.user || req.session.user.роль !== 'руководитель') {
+	if (!req.session.user || req.session.user.role !== 'руководитель') {
 		return res.status(403).json({ success: false, message: 'Доступ запрещен' })
 	}
 
